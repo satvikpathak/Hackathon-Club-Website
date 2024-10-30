@@ -4,18 +4,18 @@ import React from "react";
 const cardData = [
   {
     title: "UPCOMING HACKATHON 1",
-    description: "Short description about the upcoming hackathon and its details.",
-    imageUrl: "https://images.pexels.com/photos/29079253/pexels-photo-29079253/free-photo-of-cyclist-in-motion-at-night-in-brisbane.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", // Replace with actual image URL
+    description: "Short description about the upcoming hackathon",
+    imageUrl: "https://images.pexels.com/photos/29079253/pexels-photo-29079253/free-photo-of-cyclist-in-motion-at-night-in-brisbane.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
   },
   {
     title: "UPCOMING HACKATHON 2",
     description: "Another description about the hackathon.",
-    imageUrl: "https://via.placeholder.com/256x128", // Replace with actual image URL
+    imageUrl: "https://via.placeholder.com/256x128",
   },
   {
     title: "UPCOMING HACKATHON 3",
     description: "Description for the third hackathon.",
-    imageUrl: "https://via.placeholder.com/256x128", // Replace with actual image URL
+    imageUrl: "https://via.placeholder.com/256x128",
   },
 ];
 
@@ -29,7 +29,7 @@ const Card = ({ title, description, imageUrl }) => {
       {/* Content Section */}
       <div className="flex-grow p-5 text-center">
         <h2 className="text-lg font-bold">{title}</h2>
-        <p className="text-sm text-gray-300 my-3">{description}</p> 
+        <p className="text-sm text-gray-300 my-3">{description}</p>
       </div>
       {/* Button Section */}
       <div className="flex justify-center p-2 gap-4">
@@ -46,14 +46,15 @@ const Card = ({ title, description, imageUrl }) => {
 
 const Cards = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-5">
+    <div className="flex flex-wrap justify-end p-5 gap-4">
       {cardData.map((card, index) => (
-        <Card
-          key={index}
-          title={card.title}
-          description={card.description}
-          imageUrl={card.imageUrl}
-        />
+        <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4" key={index}>
+          <Card
+            title={card.title}
+            description={card.description}
+            imageUrl={card.imageUrl}
+          />
+        </div>
       ))}
     </div>
   );
