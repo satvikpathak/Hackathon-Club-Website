@@ -61,10 +61,11 @@ const Header = () => {
   ];
 
   return (
-    <div className="sticky top-0">
-      <div className="absolute inset-x-0 top-0">
+    
+    <div className="sticky z-50 top-1">
+      
         <FloatingNav navItems={navItems} />
-      </div>
+     
     </div>
   );
 };

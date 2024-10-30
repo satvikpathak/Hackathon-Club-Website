@@ -6,9 +6,9 @@ import './index.css';
 import App from './App.jsx';
 import Hero from './components/Hero/Hero.jsx';
 import About from './components/About/About.jsx';
-import Hackathons from './Hackathons/Hackathons.jsx';
-import Contact from './Contact/Contact.jsx';
-import Register from './Register/Register.jsx';
+import Hackathons from './components/Hackathons/Hackathons.jsx';
+import Contact from './components/Contact/Contact.jsx';
+import Register from './components/Register/Register.jsx';
 
 // Create router with routes
 const router = createBrowserRouter(
