@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm } from "react-hook-form";
 import { Link, useLocation,useNavigate } from "react-router-dom";
 
+
 function Register() {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const navigate = useNavigate()
@@ -12,7 +13,7 @@ function Register() {
 
   return (
     <div className='text-3xl min-h-screen text-white flex justify-center items-center '>
-      <div className="w-full max-w-md border-2 border-white p-8 rounded-lg bg-gray-800 shadow-lg">
+      <div className="w-full max-w-md border-2 border-white p-8 rounded-lg bg-gray-950 shadow-lg shadow-neutral-200">
         <h2 className="text-4xl font-semibold mb-6 text-center">Register</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
           <input
