@@ -37,14 +37,20 @@ const FloatingNav = ({ navItems = [], className }) => {
           <span className="block sm:hidden">{navItem.icon}</span>
           <span className=" flex flex-wrap sm:block text-sm">{navItem.name}</span>
           {location.pathname === navItem.link && (
-            <span className="absolute inset-x-0 -bottom-1 h-[3px] bg-gradient-to-l from-transparent to-blue-500 rounded" />
+            <span className="absolute inset-x-0 -bottom-1 h-[3px] bg-gradient-to-l from-transparent to-red-500 rounded" />
           )}
         </Link>
       ))}
       <Link to="/register">
-        <button className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full">
+        <button className="border  text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full">
           <span>Register</span>
-          <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px" />
+          <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-red-500 to-transparent h-px" />
+        </button>
+      </Link>
+      <Link to="/login">
+        <button className="border bg-gradient-to-r from-red-800 to-red-600 hover:bg-red-900 text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full">
+          <span>Login</span>
+          <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent  to-transparent h-px" />
         </button>
       </Link>
     </motion.div>

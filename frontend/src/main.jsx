@@ -9,6 +9,7 @@ import About from './components/About/About.jsx';
 import Hackathons from './components/Hackathons/Hackathons.jsx';
 import Contact from './components/Contact/Contact.jsx';
 import Register from './components/Register/Register.jsx';
+import Login from './components/Login/Login.jsx';
 
 // Create router with routes
 const router = createBrowserRouter(
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
       <Route path="about" element={<About />} />
       <Route path="contact" element={<Contact />} />
       <Route path="register" element={<Register />} />
+      <Route path="login" element={<Login/>} />
       <Route path="*" element={<div>Not Found</div>} />
     </Route>
   )
