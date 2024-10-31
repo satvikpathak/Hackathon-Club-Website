@@ -1,9 +1,10 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 function Register() {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const { register, handleSubmit, watch, formState: { errors, touchedFields } } = useForm();
   const navigate = useNavigate();
   const onSubmit = async (data) => {
     navigate('/Login');
@@ -11,19 +12,30 @@ function Register() {
   const password = watch("password");
 
   return (
-    <div className='text-xl min-h-screen text-white flex justify-center items-center font-inter'>
-      <div className="w-full max-w-md border-2 border-white p-8 rounded-lg bg-black shadow-lg shadow-red-600">
-        <h2 className="text-4xl font-semibold mb-6 text-center">Register</h2>
+    <div className="min-h-screen mt-auto flex justify-center items-center text-white font-inter">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="w-full max-w-md p-8 rounded-lg bg-black bg-opacity-80 backdrop-blur-lg border border-gray-700 shadow-lg"
+        style={{ boxShadow: '0 0 15px 4px rgba(255, 0, 0, 0.8)' }} // Red shadow
+      >
+        <h2 className="text-5xl font-bold mb-6 pb-3 text-center text-transparent bg-clip-text bg-gradient-to-r from-red-800 to-red-500">
+          Register
+        </h2>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
-          <input
+          <motion.input
             type="text"
             placeholder="Username"
             {...register("username", { required: "Username is required" })}
-            className="w-full p-2 rounded bg-black border text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 rounded-lg bg-gray-900 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
+            whileFocus={{ scale: 1.02 }}
           />
-          {errors.username && <div className="text-red-500 text-sm">{errors.username.message}</div>}
+          {errors.username && touchedFields.username && (
+            <div className="text-red-400 text-sm">{errors.username.message}</div>
+          )}
 
-          <input
+          <motion.input
             type="email"
             placeholder="Email"
             {...register("email", {
@@ -33,11 +45,14 @@ function Register() {
                 message: "Invalid email address"
               }
             })}
-            className="w-full p-2 rounded bg-black border text-whitefocus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 rounded-lg bg-gray-900 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
+            whileFocus={{ scale: 1.02 }}
           />
-          {errors.email && <div className="text-red-500 text-sm">{errors.email.message}</div>}
+          {errors.email && touchedFields.email && (
+            <div className="text-red-400 text-sm">{errors.email.message}</div>
+          )}
 
-          <input
+          <motion.input
             type="password"
             placeholder="Password"
             {...register("password", {
@@ -47,35 +62,47 @@ function Register() {
                 message: "Password must be at least 6 characters"
               }
             })}
-            className="w-full p-2 rounded bg-black border text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 rounded-lg bg-gray-900 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
+            whileFocus={{ scale: 1.02 }}
           />
-          {errors.password && <div className="text-red-500 text-sm">{errors.password.message}</div>}
+          {errors.password && touchedFields.password && (
+            <div className="text-red-400 text-sm">{errors.password.message}</div>
+          )}
 
-          <input
+          <motion.input
             type="password"
             placeholder="Confirm Password"
             {...register("confirmPassword", {
               required: "Please confirm your password",
               validate: value => value === password || "Passwords do not match"
             })}
-            className="w-full p-2 rounded bg-black border text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 rounded-lg bg-gray-900 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
+            whileFocus={{ scale: 1.02 }}
           />
-          {errors.confirmPassword && <div className="text-red-500 text-sm">{errors.confirmPassword.message}</div>}
+          {errors.confirmPassword && touchedFields.confirmPassword && (
+            <div className="text-red-400 text-sm">{errors.confirmPassword.message}</div>
+          )}
 
-          <button
+          <motion.button
             type="submit"
-            className="w-full py-3 mt-4 rounded bg-gradient-to-r from-red-800 to-red-600 text-white font-bold text-lg transition-all duration-200"
+            className="w-full py-3 mt-4 rounded-lg bg-gradient-to-r from-red-700 to-red-500 hover:from-red-600 hover:to-red-400 text-white font-bold text-lg transition ease-out duration-300 shadow-lg shadow-red-500/50"
+            whileHover={{ scale: 1.05 }}
           >
             Register
-          </button>
+          </motion.button>
         </form>
 
         <Link to="/Login">
-          <p className="text-center mt-4 text-sm text-gray-400">
-            Already have an account? <span className="text-red-600 hover:underline">Login</span>
-          </p>
+          <motion.p
+            className="text-center mt-4 text-sm text-gray-400 hover:text-red-500 transition duration-200"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            Already have an account? <span className="text-red-500 hover:underline">Login</span>
+          </motion.p>
         </Link>
-      </div>
+      </motion.div>
     </div>
   );
 }
