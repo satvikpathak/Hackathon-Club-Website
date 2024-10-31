@@ -46,15 +46,21 @@ const Card = ({ title, description, imageUrl }) => {
 
 const Cards = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-5">
-      {cardData.map((card, index) => (
-        <Card
-          key={index}
-          title={card.title}
-          description={card.description}
-          imageUrl={card.imageUrl}
-        />
-      ))}
+    <div className="grid grid-cols-4 gap-4 p-5">
+      {/* Empty space in the first column */}
+      <div className="col-start-1"></div>
+      
+      {/* Start placing cards from the second column */}
+      <div className="col-start-2 col-span-3 flex justify-end gap-4">
+        {cardData.map((card, index) => (
+          <Card
+            key={index}
+            title={card.title}
+            description={card.description}
+            imageUrl={card.imageUrl}
+          />
+        ))}
+      </div>
     </div>
   );
 };
