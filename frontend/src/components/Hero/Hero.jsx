@@ -18,12 +18,12 @@ const HeroSection = () => {
         <div className="flex justify-center space-x-4">
           <Link 
           to="/register">
-          <button className="bg-red-500 border-2 border-red-800 rounded-lg text-black py-2 px-6 rounded hover:bg-red-600 transition duration-300">
+          <button className="bg-red-500 border-2 border-red-800 rounded-lg text-black py-2 px-6 hover:bg-red-600 transition duration-300">
             Register
           </button>
           </Link>
           <Link to="/about">
-          <button className="bg-red-700 border-2 border-red-600 rounded-lg text-white py-2 px-6 rounded hover:bg-red-800 transition duration-300">
+          <button className="bg-red-700 border-2 border-red-600 rounded-lg text-white py-2 px-6hover:bg-red-800 transition duration-300">
             About
           </button>
           </Link>
@@ -36,5 +36,4 @@ const HeroSection = () => {
     </div>
   );
 };
-
 export default HeroSection;
