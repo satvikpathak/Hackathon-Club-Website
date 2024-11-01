@@ -38,10 +38,10 @@ function Register() {
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="w-full max-w-md p-8 rounded-lg bg-black bg-opacity-80 backdrop-blur-lg border border-gray-700 shadow-lg"
-        style={{ boxShadow: "0 0 15px 4px rgba(255, 0, 0, 0.8)" }}
+        className="w-full max-w-md p-8 rounded-lg bg-black bg-opacity-80 backdrop-blur-lg border border-stone-700 shadow-lg"
+        style={{ boxShadow: "0 0 15px 1px rgba(255, 0, 0, 0.8)" }}
       >
-        <h2 className="text-5xl font-bold mb-6 pb-3 text-center text-transparent bg-clip-text bg-gradient-to-r from-red-800 to-red-500">
+        <h2 className="text-4xl font-bold mb-6 pb-3 text-center  bg-clip-text ">
           Register
         </h2>
         <form
@@ -52,7 +52,7 @@ function Register() {
             type="text"
             placeholder="Name"
             {...register("name", { required: "Name is required" })}
-            className="w-full p-3 rounded-lg bg-gray-950 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
+            className="w-full p-3 rounded-lg bg-stone-950 border border-white-500 text-white placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
             whileFocus={{ scale: 1.02 }}
           />
           {errors.name && touchedFields.name && (
@@ -69,7 +69,7 @@ function Register() {
                 message: "Invalid email address",
               },
             })}
-            className="w-full p-3 rounded-lg bg-gray-950 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
+            className="w-full p-3 rounded-lg bg-stone-950 border border-white-500 text-white placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
             whileFocus={{ scale: 1.02 }}
           />
           {errors.email && touchedFields.email && (
@@ -86,7 +86,7 @@ function Register() {
                 message: "Password must be at least 6 characters",
               },
             })}
-            className="w-full p-3 rounded-lg bg-gray-950 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
+            className="w-full p-3 rounded-lg bg-stone-950 border border-white-500 text-white placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
             whileFocus={{ scale: 1.02 }}
           />
           {errors.password && touchedFields.password && (
@@ -103,7 +103,7 @@ function Register() {
               validate: (value) =>
                 value === password || "Passwords do not match",
             })}
-            className="w-full p-3 rounded-lg bg-gray-950 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
+            className="w-full p-3 rounded-lg bg-stone-950 border border-white-500 text-white placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
             whileFocus={{ scale: 1.02 }}
           />
           {errors.confirmPassword && touchedFields.confirmPassword && (
@@ -123,12 +123,13 @@ function Register() {
 
         <Link to="/login">
           <motion.p
-            className="text-center mt-4 text-sm text-gray-400 hover:text-red-500 transition duration-200"
+            className="text-center mt-4 text-sm text-stone-400 hover:text-red-500 transition duration-200"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            Already have an account? Login
+            Already have an account? 
+            <span className="text-red-500 underline">Login</span>
           </motion.p>
         </Link>
       </motion.div>

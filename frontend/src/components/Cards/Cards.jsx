@@ -34,7 +34,7 @@ const Card = ({ title, description, imageUrl }) => {
       {/* Content Section */}
       <div className="flex-grow p-5 text-center">
         <h2 className="text-lg font-bold">{title}</h2>
-        <p className="text-sm text-gray-300 my-3">{description}</p>
+        <p className="text-sm text-stone-300 my-3">{description}</p>
       </div>
       {/* Button Section */}
       <div className="flex justify-center p-2 gap-4">

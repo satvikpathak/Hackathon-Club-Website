@@ -25,7 +25,7 @@ const HeroSection = () => {
               </button>
             </Link>
             <Link to="/about">
-              <button className="bg-red-700 border-2 border-red-600 rounded-lg text-white py-2 px-6hover:bg-red-800 transition duration-300">
+              <button className="bg-red-700 border-2 border-red-600 rounded-lg text-white py-2 px-6 hover:bg-red-800 transition duration-300">
                 About
               </button>
             </Link>
