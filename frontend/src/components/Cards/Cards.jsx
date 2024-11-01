@@ -5,7 +5,8 @@ const cardData = [
   {
     title: "UPCOMING HACKATHON 1",
     description: "Short description about the upcoming hackathon",
-    imageUrl: "https://images.pexels.com/photos/29079253/pexels-photo-29079253/free-photo-of-cyclist-in-motion-at-night-in-brisbane.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    imageUrl:
+      "https://images.pexels.com/photos/29079253/pexels-photo-29079253/free-photo-of-cyclist-in-motion-at-night-in-brisbane.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
   },
   {
     title: "UPCOMING HACKATHON 2",
@@ -24,7 +25,11 @@ const Card = ({ title, description, imageUrl }) => {
     <div className="bg-black text-white rounded-lg w-full p-0 m-2 shadow-md flex flex-col">
       {/* Image Section */}
       <div className="h-40">
-        <img src={imageUrl} alt="Hackathon" className="w-full h-full object-cover rounded-t-lg" />
+        <img
+          src={imageUrl}
+          alt="Hackathon"
+          className="w-full h-full object-cover rounded-t-lg"
+        />
       </div>
       {/* Content Section */}
       <div className="flex-grow p-5 text-center">
