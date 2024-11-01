@@ -50,7 +50,7 @@ function Login() {
         >
           <motion.input
             type="text"
-            placeholder="Username/Email"
+            placeholder="Email"
             {...register("email", { required: "Email is required" })}
             className="w-full p-3 rounded-lg bg-gray-900 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
             whileFocus={{ scale: 1.02 }}
