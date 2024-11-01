@@ -15,14 +15,12 @@ const Contact = () => {
   const onSubmit = async (data) => {
     try {
       console.log("Submitting contact data:", data);
-      const response = await axios.post(
-        "http://localhost:5000/api/contact",
-        data
-      );
-
+      const response = await axios.post("http://localhost:5000/api/contact", data);
+  
       if (response.data.status === "ok") {
         alert("Message sent successfully!");
         setIsModalOpen(false);
+        reset(); // Reset form fields after successful submission
       } else {
         alert(response.data.error);
       }
@@ -31,7 +29,7 @@ const Contact = () => {
       alert("An error occurred. Please try again.");
     }
   };
-
+  
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}

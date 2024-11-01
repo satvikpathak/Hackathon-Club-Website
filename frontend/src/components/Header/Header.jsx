@@ -33,7 +33,7 @@ const FloatingNav = ({ navItems = [], className }) => {
           )}
         >
           <span className="block sm:hidden">{navItem.icon}</span>
-          <span className=" flex flex-wrap sm:block text-sm">
+          <span className=" flex flex-wrap sm:block text-sm transition-transform duration-200 hover:scale-110">
             {navItem.name}
           </span>
           {location.pathname === navItem.link && (
@@ -42,13 +42,13 @@ const FloatingNav = ({ navItems = [], className }) => {
         </Link>
       ))}
       <Link to="/register">
-        <button className="border  text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full">
+        <button className="border  text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full transition-transform duration-200 hover:scale-110">
           <span>Register</span>
           <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-red-500 to-transparent h-px" />
         </button>
       </Link>
       <Link to="/login">
-        <button className="border bg-gradient-to-r from-red-800 to-red-600 hover:bg-red-900 text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full">
+        <button className="border bg-gradient-to-r from-red-800 to-red-600 hover:bg-red-900 text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full transition-transform duration-200 hover:scale-110">
           <span>Login</span>
           <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent  to-transparent h-px" />
         </button>
