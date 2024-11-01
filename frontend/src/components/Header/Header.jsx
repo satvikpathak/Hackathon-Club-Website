@@ -1,13 +1,11 @@
 "use client";
 import React from "react";
-import {
-  motion,
-} from "framer-motion";
+import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom"; // Import from react-router-dom
-import { clsx } from "clsx"; // Import clsx for conditional class names
-import { twMerge } from "tailwind-merge"; // Import tailwind-merge for merging classes
+import { clsx } from "clsx"; // Import clsx for conditional className names
+import { twMerge } from "tailwind-merge"; // Import tailwind-merge for merging classNamees
 
-// Utility function for class name management
+// Utility function for className name management
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
@@ -35,7 +33,9 @@ const FloatingNav = ({ navItems = [], className }) => {
           )}
         >
           <span className="block sm:hidden">{navItem.icon}</span>
-          <span className=" flex flex-wrap sm:block text-sm">{navItem.name}</span>
+          <span className=" flex flex-wrap sm:block text-sm">
+            {navItem.name}
+          </span>
           {location.pathname === navItem.link && (
             <span className="absolute inset-x-0 -bottom-1 h-[3px] bg-gradient-to-l from-transparent to-red-500 rounded" />
           )}
@@ -63,15 +63,12 @@ const Header = () => {
     { name: "Home", link: "/home" },
     { name: "Hackathons", link: "/hackathons" },
     { name: "About", link: "/about" },
-    { name: "Contact", link: "/contact" }
+    { name: "Contact", link: "/contact" },
   ];
 
   return (
-    
     <div className="sticky z-50 top-1">
-      
-        <FloatingNav navItems={navItems} />
-     
+      <FloatingNav navItems={navItems} />
     </div>
   );
 };
