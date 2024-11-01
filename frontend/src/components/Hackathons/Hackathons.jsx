@@ -42,13 +42,13 @@ function Hackathons() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white p-8">
+    <div className="min-h-screen  text-white p-8">
       <h1 className="text-4xl mb-8 font-bold animate__animated animate__fadeIn">Hackathons You Can See Here</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {hackathons.map((hackathon, index) => (
           <div
             key={index}
-            className="bg-gray-900 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer transform hover:scale-105 hover:bg-gradient-to-br from-red-700 to-red-500"
+            className="bg-gray-950 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer transform hover:scale-105 hover:bg-gradient-to-br from-red-700 to-red-500"
             onClick={() => handleCardClick(hackathon)}
           >
             <h2 className="text-2xl font-semibold mb-2">{hackathon.title}</h2>

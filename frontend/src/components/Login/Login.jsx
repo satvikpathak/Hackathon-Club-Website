@@ -52,7 +52,7 @@ function Login() {
             type="text"
             placeholder="Email"
             {...register("email", { required: "Email is required" })}
-            className="w-full p-3 rounded-lg bg-gray-900 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
+            className="w-full p-3 rounded-lg bg-gray-950 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
             whileFocus={{ scale: 1.02 }}
           />
           {errors.email && touchedFields.email && (
@@ -66,11 +66,13 @@ function Login() {
               required: "Password is required",
               minLength: { value: 8, message: "Minimum length is 8" },
             })}
-            className="w-full p-3 rounded-lg bg-gray-900 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
+            className="w-full p-3 rounded-lg bg-gray-950 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
             whileFocus={{ scale: 1.02 }}
           />
           {errors.password && touchedFields.password && (
-            <div className="text-red-400 text-sm">{errors.password.message}</div>
+            <div className="text-red-400 text-sm">
+              {errors.password.message}
+            </div>
           )}
 
           <motion.button

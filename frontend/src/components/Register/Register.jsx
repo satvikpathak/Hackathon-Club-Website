@@ -52,7 +52,7 @@ function Register() {
             type="text"
             placeholder="Name"
             {...register("name", { required: "Name is required" })}
-            className="w-full p-3 rounded-lg bg-gray-900 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
+            className="w-full p-3 rounded-lg bg-gray-950 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
             whileFocus={{ scale: 1.02 }}
           />
           {errors.name && touchedFields.name && (
@@ -69,7 +69,7 @@ function Register() {
                 message: "Invalid email address",
               },
             })}
-            className="w-full p-3 rounded-lg bg-gray-900 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
+            className="w-full p-3 rounded-lg bg-gray-950 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
             whileFocus={{ scale: 1.02 }}
           />
           {errors.email && touchedFields.email && (
@@ -86,7 +86,7 @@ function Register() {
                 message: "Password must be at least 6 characters",
               },
             })}
-            className="w-full p-3 rounded-lg bg-gray-900 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
+            className="w-full p-3 rounded-lg bg-gray-950 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
             whileFocus={{ scale: 1.02 }}
           />
           {errors.password && touchedFields.password && (
@@ -103,7 +103,7 @@ function Register() {
               validate: (value) =>
                 value === password || "Passwords do not match",
             })}
-            className="w-full p-3 rounded-lg bg-gray-900 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
+            className="w-full p-3 rounded-lg bg-gray-950 border border-white-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition ease-out duration-200"
             whileFocus={{ scale: 1.02 }}
           />
           {errors.confirmPassword && touchedFields.confirmPassword && (
