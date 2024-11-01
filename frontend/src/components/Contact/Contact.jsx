@@ -76,7 +76,7 @@ const Contact = () => {
             className="w-full max-w-md p-8 rounded-lg bg-stone-900 backdrop-blur-lg border border-stone-700 shadow-lg"
             style={{ boxShadow: "0 0 15px 1px rgba(255, 0, 0, 0.8)" }}
           >
-            <h2 className="text-4xl font-bold mb-6 text-center text-red-500">Contact Us</h2>
+            <h2 className="text-4xl font-bold mb-6 text-center text-white">Contact Us</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
               <motion.input
                 type="text"

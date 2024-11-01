@@ -22,6 +22,7 @@ function Login() {
 
       if (response.data.status === "ok") {
         localStorage.setItem("token", response.data.token);
+        console.log("success")
         navigate("/home");
       } else {
         alert(response.data.error);
