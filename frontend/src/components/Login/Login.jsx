@@ -10,7 +10,7 @@ function Login() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", data);
+      const response = await axios.post("http://localhost:5001/api/auth/login", data);
       if (response.data.status === "ok") {
         localStorage.setItem("token", response.data.token);
         navigate("/home");
@@ -46,7 +46,7 @@ function Login() {
             placeholder="Password"
             {...register("password", {
               required: "Password is required",
-              minLength: { value: 8, message: "Minimum length is 8" },
+              minLength: { value: 6, message: "Minimum length is 8" },
             })}
             className="w-full p-3 rounded-lg bg-stone-950 border border-gray-600 text-white placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-red-600 transition"
             whileFocus={{ scale: 1.02 }}
