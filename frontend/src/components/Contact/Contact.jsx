@@ -16,11 +16,11 @@ const Contact = () => {
     try {
       console.log("Submitting contact data:", data);
       const response = await axios.post("http://localhost:5000/api/contact", data);
-  
+
       if (response.data.status === "ok") {
         alert("Message sent successfully!");
         setIsModalOpen(false);
-        reset(); // Reset form fields after successful submission
+        reset();
       } else {
         alert(response.data.error);
       }
@@ -29,7 +29,7 @@ const Contact = () => {
       alert("An error occurred. Please try again.");
     }
   };
-  
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -38,23 +38,14 @@ const Contact = () => {
       transition={{ duration: 0.5, ease: "easeInOut" }}
       className="min-h-screen flex flex-col md:flex-row"
     >
-      {/* Left side with image */}
-      <div className="relative w-full md:w-1/2 overflow-hidden rounded-t-lg md:rounded-l-lg">
-        <img
-          src={image}
-          alt="Contact Illustration"
-          className="w-full h-full object-cover"
-        />
-        {/* Overlay for blending */}
+      <div className="relative w-full md:w-1/2  overflow-hidden rounded-t-lg md:rounded-l-lg">
+        <img src={image} alt="Contact Illustration" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-black opacity-40"></div>
       </div>
 
-      {/* Right side with "Get Started" button */}
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-black bg-opacity-90 text-white font-inter p-8 rounded-b-lg md:rounded-r-lg shadow-lg">
-        <h2 className="text-4xl font-bold mb-6 text-center text-red-500">Contact Us</h2>
-        <p className="text-center text-gray-400 mb-4">
-          Reach out to us for any queries or support!
-        </p>
+        <h2 className="text-4xl font-bold mb-6 text-center text-white">Contact Us</h2>
+        <p className="text-center text-gray-400 mb-4">Reach out to us for any queries or support!</p>
         <motion.button
           className="px-6 py-3 mb-4 rounded-lg bg-gradient-to-r from-red-700 to-red-500 hover:from-red-600 hover:to-red-400 text-white font-bold text-lg transition ease-out duration-300 shadow-lg shadow-red-500/50"
           whileHover={{ scale: 1.05 }}
@@ -64,12 +55,11 @@ const Contact = () => {
         </motion.button>
       </div>
 
-      {/* Modal for Contact Form */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: "100px" }}
+            animate={{ opacity: 1, y: "0" }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="w-full max-w-md p-8 rounded-lg bg-stone-900 backdrop-blur-lg border border-stone-700 shadow-lg"
             style={{ boxShadow: "0 0 15px 1px rgba(255, 0, 0, 0.8)" }}
@@ -113,7 +103,6 @@ const Contact = () => {
               </motion.button>
             </form>
 
-            {/* Close Button */}
             <button
               onClick={() => setIsModalOpen(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-white"

@@ -26,7 +26,7 @@ const About = () => {
 
       {/* Right side with content */}
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-black bg-opacity-90 text-white font-inter p-8 rounded-b-lg md:rounded-r-lg shadow-lg">
-        <h2 className="text-4xl font-bold mb-6 text-center text-red-500">About Us</h2>
+        <h2 className="text-4xl font-bold mb-6 text-center text-white">About Us</h2>
         <p className="text-center text-gray-400 mb-4">
           Empowering Innovation Through Hackathons
         </p>
@@ -37,11 +37,13 @@ const About = () => {
           Join us as we build a community that fosters creativity, problem-solving, and progress in the world of technology and beyond!
         </p>
 
-        <span className="mt-6">Know more about us 
+        <div className="flex flex-col mt-8 justify-center items-center">
+        <div className="mt-6">Want to Know more about us! </div>
           <Link to = "/contact">
-            <span className="text-red-500 ml-2 underline">Contact us</span>
+            <div className="text-red-500 ml-2 underline">Contact us</div>
           </Link>
-        </span>
+        
+        </div>
       </div>
     </motion.div>
   );

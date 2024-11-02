@@ -24,7 +24,7 @@ const Card = ({ title, description, imageUrl }) => {
   return (
     <div className="bg-black text-white rounded-lg w-full p-0 m-2 shadow-md flex flex-col">
       {/* Image Section */}
-      <div className="h-40">
+      <div className="h-48">
         <img
           src={imageUrl}
           alt="Hackathon"
