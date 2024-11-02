@@ -30,22 +30,20 @@ export default function Carousel() {
   return (
     <div
       id="controls-carousel"
-      className="relative  w-full z-10"
+      className="relative w-full z-10"
       data-carousel="static"
     >
-      {" "}
-      {/* Set z-10 here */}
       <div className="relative rounded-md h-96 overflow-hidden rounded-lg md:h-[540px]">
         {carouselItems.map((src, index) => (
           <div
-            className={`duration-700 ease-in-out ${
-              currentIndex === index ? "block" : "hidden"
-            }`}
+            className={`transition-opacity duration-700 ease-in-out ${
+              currentIndex === index ? "opacity-100" : "opacity-0"
+            } absolute top-0 left-0 w-full h-full`}
             key={index}
           >
             <img
               src={src}
-              className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+              className="absolute block w-full h-full object-cover"
               alt={`Slide ${index + 1}`}
             />
           </div>
