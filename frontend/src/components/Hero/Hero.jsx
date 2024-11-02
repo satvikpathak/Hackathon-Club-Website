@@ -5,7 +5,7 @@ import Cards from "../Cards/Cards";
 const HeroSection = () => {
   return (
     <div>
-      <section className="relative flex items-center justify-center bg-gradient-to-r from-red-900 via-red-700 to-red-900 text-white py-24 px-8 mt-4 gap-4 overflow-hidden">
+      <section className="relative flex items-center justify-center bg-gradient-to-r from-red-900 via-red-700 to-red-900 text-white py-24 px-8 mt-2 gap-4 overflow-hidden">
         {/* Floating Background Shapes */}
         <div className="absolute top-0 left-0 w-32 h-32 bg-red-600 rounded-full opacity-50 animate-pulse"></div>
         <div className="absolute bottom-0 right-0 w-40 h-40 bg-red-400 rounded-full opacity-30 animate-pulse delay-2000"></div>
@@ -32,7 +32,9 @@ const HeroSection = () => {
           </div>
         </div>
 
+        <div className="w-2/3">
         <Carousel />
+        </div>
       </section>
       <Cards />
     </div>
