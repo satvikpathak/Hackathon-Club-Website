@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
-
+import {toast,Toaster} from "react-hot-toast";
 function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
@@ -13,16 +13,21 @@ function Login() {
       const response = await axios.post("http://localhost:5001/api/auth/login", data);
       if (response.data.status === "ok") {
         localStorage.setItem("token", response.data.token);
-        navigate("/home");
+        toast.success("Successfully Logged in !!");
+       
+        setTimeout(()=>{
+          navigate("/home");
+        },1000)
       } else alert(response.data.error);
     } catch (error) {
       console.error("Login error:", error);
-      alert("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
     }
   };
 
   return (
     <div className="min-h-screen flex justify-center items-center text-white font-inter">
+      <Toaster/>
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}

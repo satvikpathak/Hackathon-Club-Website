@@ -24,8 +24,11 @@ function Register() {
       );
 
       if (response.data.status === "ok") {
-        toast.success("Successfully Logged in!!");
-        navigate("/login");
+        toast.success("Successfully Registered!");
+        setTimeout(()=>{
+          navigate("/login");
+        },1000)
+
       } else {
         alert(response.data.error);
       }

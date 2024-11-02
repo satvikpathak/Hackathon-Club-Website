@@ -15,7 +15,7 @@ const Contact = () => {
   const onSubmit = async (data) => {
     try {
       console.log("Submitting contact data:", data);
-      const response = await axios.post("http://localhost:5000/api/contact", data);
+      const response = await axios.post("http://localhost:5001/api/contact", data);
 
       if (response.data.status === "ok") {
         alert("Message sent successfully!");

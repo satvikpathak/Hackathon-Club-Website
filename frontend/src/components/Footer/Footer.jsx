@@ -74,7 +74,7 @@ function Footer() {
           © 2024 Hackathon Club
         </motion.p>
         <motion.div 
-          className="footer-quotes mb-1"
+          className="footer-quotes mt-5"
           initial={{ scale: 0.9 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
