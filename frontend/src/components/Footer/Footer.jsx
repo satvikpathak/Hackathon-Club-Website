@@ -9,10 +9,10 @@ function Footer() {
   };
 
   return (
-    <footer className="relative p-6 bg-[#000000] text-white text-center">
+    <footer className="relative p-6  text-white text-center">
       <svg
         className="absolute left-0 bottom-0 w-full"
-        viewBox="0 0 1440 320"
+        viewBox="0 0 1440 250"
         preserveAspectRatio="none"
       >
         <path

@@ -43,7 +43,7 @@ const Contact = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black opacity-40"></div>
       </div>
 
-      <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-black bg-opacity-90 text-white font-inter p-8 rounded-b-lg md:rounded-r-lg shadow-lg">
+      <div className="w-full md:w-1/2 flex flex-col justify-center items-center  bg-opacity-90 text-white font-inter p-8 rounded-b-lg md:rounded-r-lg shadow-lg">
         <h2 className="text-4xl font-bold mb-6 text-center text-white">Contact Us</h2>
         <p className="text-center text-gray-400 mb-4">Reach out to us for any queries or support!</p>
         <motion.button

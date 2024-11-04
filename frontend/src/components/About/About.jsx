@@ -25,7 +25,7 @@ const About = () => {
       </div>
 
       {/* Right side with content */}
-      <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-black bg-opacity-90 text-white font-inter p-8 rounded-b-lg md:rounded-r-lg shadow-lg">
+      <div className="w-full md:w-1/2 flex flex-col justify-center items-center  bg-opacity-90 text-white font-inter p-8 rounded-b-lg md:rounded-r-lg shadow-lg">
         <h2 className="text-4xl font-bold mb-6 text-center text-white">About Us</h2>
         <p className="text-center text-gray-400 mb-4">
           Empowering Innovation Through Hackathons
