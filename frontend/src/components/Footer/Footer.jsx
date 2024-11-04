@@ -79,7 +79,7 @@ function Footer() {
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
         >
-          <pre className="text-md italic">"Success is not final, failure is not fatal: it is the courage to continue that counts."</pre>
+          <pre className="text-md italic text-wrap">"Success is not final, failure is not fatal: it is the courage to continue that counts."</pre>
         </motion.div>
       </motion.div>
          

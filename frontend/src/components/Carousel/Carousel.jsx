@@ -33,7 +33,7 @@ export default function Carousel() {
       className="relative w-full z-10"
       data-carousel="static"
     >
-      <div className="relative rounded-md h-96 overflow-hidden rounded-lg md:h-[540px]">
+      <div className="relative rounded-md h-48 md:h-96 lg:h-[540px] overflow-hidden">
         {carouselItems.map((src, index) => (
           <div
             className={`transition-opacity duration-700 ease-in-out ${
