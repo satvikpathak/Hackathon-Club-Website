@@ -4,3 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
+.logo {
+    color: var(--colorLogo);  /* Using the appearance color variable */
+  }
+  

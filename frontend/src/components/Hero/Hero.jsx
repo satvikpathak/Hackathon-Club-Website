@@ -2,6 +2,7 @@ import React from "react";
 import Carousel from "../Carousel/Carousel";
 import { Link } from "react-router-dom";
 import Cards from "../Cards/Cards";
+import { SignedIn, SignedOut } from "@clerk/clerk-react";
 
 const HeroSection = () => {
   return (
@@ -19,11 +20,14 @@ const HeroSection = () => {
             Join us for an incredible experience where innovation meets creativity.
           </p>
           <div className="flex justify-center md:justify-start space-x-4">
-            <Link to="/register">
-              <button className="bg-red-500 border-2 border-red-800 rounded-lg text-black py-2 px-6 hover:bg-red-600 transition duration-300 transform hover:scale-105">
-                Register
-              </button>
-            </Link>
+            {/* Only show Register button when signed out */}
+            <SignedOut>
+              <Link to="/sign-up">
+                <button className="bg-red-500 border-2 border-red-800 rounded-lg text-black py-2 px-6 hover:bg-red-600 transition duration-300 transform hover:scale-105">
+                  Register
+                </button>
+              </Link>
+            </SignedOut>
             <Link to="/about">
               <button className="bg-red-700 border-2 border-red-600 rounded-lg text-white py-2 px-6 hover:bg-red-800 transition duration-300 transform hover:scale-105">
                 About

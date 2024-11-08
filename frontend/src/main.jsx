@@ -1,15 +1,23 @@
 import React from 'react';
+import ReactDOM from 'react-dom/client';
 import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, Navigate } from 'react-router-dom';
-import './index.css';
 import App from './App.jsx';
 import Hero from './components/Hero/Hero.jsx';
 import About from './components/About/About.jsx';
 import Hackathons from './components/Hackathons/Hackathons.jsx';
 import Contact from './components/Contact/Contact.jsx';
-import Register from './components/Register/Register.jsx';
-import Login from './components/Login/Login.jsx';
+import Register from './components/Register/Sign-up.jsx';
+import Login from './components/Login/Sign-in.jsx';
+import './index.css';
+import { ClerkProvider } from '@clerk/clerk-react'
+
+// Import your publishable key
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
+if (!PUBLISHABLE_KEY) {
+  throw new Error("Missing Publishable Key");
+}
 
 // Create router with routes
 const router = createBrowserRouter(
@@ -20,16 +28,18 @@ const router = createBrowserRouter(
       <Route path="hackathons" element={<Hackathons />} />
       <Route path="about" element={<About />} />
       <Route path="contact" element={<Contact />} />
-      <Route path="register" element={<Register />} />
-      <Route path="login" element={<Login/>} />
+      <Route path="sign-up" element={<Register />} />
+      <Route path="sign-in" element={<Login />} />
       <Route path="*" element={<div>Not Found</div>} />
     </Route>
   )
 );
 
 // Render the application
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <StrictMode> 
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
     <RouterProvider router={router} />
+    </ClerkProvider>
   </StrictMode>
 );
