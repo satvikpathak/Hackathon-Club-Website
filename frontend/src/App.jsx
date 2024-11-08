@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import { SignedIn, UserButton } from "@clerk/clerk-react";
 
 function App() {
   return (
@@ -14,7 +15,15 @@ function App() {
           </div>
         </div>
       </div>
-      <Header />
+      <Header >
+         <div className="flex items-center gap-2 lg:gap-4">
+         
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+        </div>
+      </Header>
+    
       <Outlet /> {/* This will render the nested routes */}
       <Footer />
     </>
