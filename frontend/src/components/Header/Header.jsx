@@ -93,8 +93,8 @@ const Header = () => {
     { name: "Home", link: "/home" },
     { name: "Hackathons", link: "/hackathons" },
     { name: "Skills", link: "/skills" },
-    { name: "Contact", link: "/contact" },
-    { name: "Profiles", link: "/profiles" }, {/* Added ProfilePage link here */}
+    { name: "Profiles", link: "/profiles" }, 
+    { name: "Contact", link: "/contact" }
   ];
 
   useEffect(() => {

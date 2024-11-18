@@ -2,6 +2,8 @@
   "name": "frontend",
   "private": true,
   "version": "0.0.0",
+  "proxy": "https://vocal-haddock-92.clerk.accounts.dev",
+
   "type": "module",
   "scripts": {
     "dev": "vite",
