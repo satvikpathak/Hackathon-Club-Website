@@ -71,4 +71,4 @@ const config = {
   ],
 };
 
-module.exports = config satisfies Config;
+module.exports = config 

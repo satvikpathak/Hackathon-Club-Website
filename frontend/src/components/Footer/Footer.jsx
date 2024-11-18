@@ -37,7 +37,7 @@ function Footer() {
             <h3 className="font-bold text-sm">Navigation</h3>
             <div className="flex gap-3">
               <Link to="/" className="text-white hover:underline transition duration-300 transform hover:scale-105" onClick={scrollToTop}><p>Home</p></Link>
-              <Link to="/about" className="text-white hover:underline transition duration-300 transform hover:scale-105" onClick={scrollToTop}><p>About</p></Link>
+              <Link to="/skills" className="text-white hover:underline transition duration-300 transform hover:scale-105" onClick={scrollToTop}><p>Skills</p></Link>
               <Link to="/contact" className="text-white hover:underline transition duration-300 transform hover:scale-105" onClick={scrollToTop}><p>Contact</p></Link>
             </div>
           </div>

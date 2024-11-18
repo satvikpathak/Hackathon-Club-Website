@@ -4,7 +4,7 @@ import { StrictMode } from 'react';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, Navigate } from 'react-router-dom';
 import App from './App.jsx';
 import Hero from './components/Hero/Hero.jsx';
-import About from './components/About/About.jsx';
+import Skills from './components/Skills/Skills.jsx';
 import Hackathons from './components/Hackathons/Hackathons.jsx';
 import Contact from './components/Contact/Contact.jsx';
 import Register from './components/Register/Sign-up.jsx';
@@ -26,7 +26,7 @@ const router = createBrowserRouter(
       <Route index element={<Navigate to="home" replace />} />
       <Route path="home" element={<Hero />} />
       <Route path="hackathons" element={<Hackathons />} />
-      <Route path="about" element={<About />} />
+      <Route path="skills" element={<Skills />} />
       <Route path="contact" element={<Contact />} />
       <Route path="sign-up" element={<Register />} />
       <Route path="sign-in" element={<Login />} />

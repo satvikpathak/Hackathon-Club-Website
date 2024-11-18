@@ -4,13 +4,13 @@ import React from "react";
 const cardData = [
   {
     title: "UPCOMING HACKATHON 1",
-    description: "Short description about the upcoming hackathon",
+    description: "Short description Skills the upcoming hackathon",
     imageUrl:
       "https://images.pexels.com/photos/29079253/pexels-photo-29079253/free-photo-of-cyclist-in-motion-at-night-in-brisbane.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
   },
   {
     title: "UPCOMING HACKATHON 2",
-    description: "Another description about the hackathon.",
+    description: "Another description Skills the hackathon.",
     imageUrl: "https://via.placeholder.com/256x128",
   },
   {
