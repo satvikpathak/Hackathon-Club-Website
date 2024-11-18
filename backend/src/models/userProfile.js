@@ -1,10 +1,14 @@
-// models/UserProfile.js
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const userProfileSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true, // Ensure email is unique
   },
   college: {
     type: String,

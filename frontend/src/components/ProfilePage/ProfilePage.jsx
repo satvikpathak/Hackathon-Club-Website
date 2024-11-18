@@ -1,95 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 function ProfilePage() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [profiles, setProfiles] = useState([]); // State for all user profiles
+  const [searchQuery, setSearchQuery] = useState(""); // Search query state
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
 
-  const profiles = [
-    {
-      _id: "1",
-      name: "John Doe",
-      college: "XYZ University",
-      interests: "Coding, AI, Machine Learning",
-      skills: [
-        { label: "JavaScript", value: "Advanced" },
-        { label: "Python", value: "Intermediate" },
-        { label: "React", value: "Advanced" },
-      ],
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      _id: "2",
-      name: "Jane Smith",
-      college: "ABC College",
-      interests: "Design, UX, Web Development",
-      skills: [
-        { label: "HTML", value: "Expert" },
-        { label: "CSS", value: "Advanced" },
-        { label: "Figma", value: "Intermediate" },
-      ],
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      _id: "3",
-      name: "Alice Johnson",
-      college: "LMN University",
-      interests: "Data Science, Mathematics, Analytics",
-      skills: [
-        { label: "R", value: "Expert" },
-        { label: "SQL", value: "Advanced" },
-        { label: "Machine Learning", value: "Intermediate" },
-      ],
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      _id: "4",
-      name: "Bob Williams",
-      college: "PQR Institute",
-      interests: "Cybersecurity, Blockchain, Networking",
-      skills: [
-        { label: "C++", value: "Advanced" },
-        { label: "Java", value: "Intermediate" },
-        { label: "Network Security", value: "Expert" },
-      ],
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      _id: "5",
-      name: "David Lee",
-      college: "DEF College",
-      interests: "Game Development, AI",
-      skills: [
-        { label: "C#", value: "Expert" },
-        { label: "Unity", value: "Intermediate" },
-        { label: "AI", value: "Advanced" },
-      ],
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      _id: "6",
-      name: "Sophia Brown",
-      college: "UVW University",
-      interests: "Mobile Development, IoT",
-      skills: [
-        { label: "Flutter", value: "Expert" },
-        { label: "Java", value: "Intermediate" },
-        { label: "Kotlin", value: "Advanced" },
-      ],
-      image: "https://via.placeholder.com/150",
-    },
-  ];
+  // Fetch user profiles from the backend
+  useEffect(() => {
+    const fetchProfiles = async () => {
+      try {
+        const response = await fetch("http://localhost:5001/api/users"); // Backend endpoint
+        if (!response.ok) {
+          throw new Error("Failed to fetch profiles");
+        }
+        const data = await response.json();
+        setProfiles(data); // Set profiles state
+        setLoading(false); // Turn off loading state
+      } catch (err) {
+        setError(err.message); // Set error message
+        setLoading(false); // Turn off loading state
+      }
+    };
+
+    fetchProfiles();
+  }, []);
 
   // Handle search query change
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
   };
 
-  // Handle connect button click
-  const handleConnectClick = (name) => {
-    console.log(`Connected with ${name}`);
-  };
-
-  // Filter profiles based on search query (by name or skill tag)
+  // Filter profiles based on search query
   const filteredProfiles = profiles.filter((profile) => {
     const lowerCaseQuery = searchQuery.toLowerCase();
     return (
@@ -99,6 +42,9 @@ function ProfilePage() {
       )
     );
   });
+
+  if (loading) return <div>Loading profiles...</div>; // Show loading spinner
+  if (error) return <div>Error: {error}</div>; // Show error message
 
   return (
     <div className="min-h-screen text-white p-8">
@@ -126,7 +72,7 @@ function ProfilePage() {
       >
         {filteredProfiles.map((profile, index) => (
           <motion.div
-            key={index}
+            key={profile._id}
             className="bg-stone-950 rounded-lg p-6 shadow-lg cursor-pointer transform hover:scale-105 hover:bg-gradient-to-br from-red-700 to-red-500"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -137,7 +83,7 @@ function ProfilePage() {
               {/* Profile Image */}
               <div className="flex-shrink-0">
                 <img
-                  src={profile.image}
+                  src={profile.profilePhoto || "https://via.placeholder.com/150"} // Use profilePhoto from API or placeholder
                   alt={profile.name}
                   className="w-32 h-32 object-cover rounded-full"
                 />
@@ -160,12 +106,16 @@ function ProfilePage() {
 
                 {/* Full-Width Connect Button */}
                 <div className="mt-6">
-                  <button
-                    onClick={() => handleConnectClick(profile.name)}
-                    className="w-full bg-gradient-to-r from-red-700 to-red-500 text-white rounded-full py-3 px-4 transition-transform transform hover:scale-105"
+                  <a
+                    href={`mailto:${profile.email || ""}`} // Ensure email is handled properly
+                    className="block w-full"
                   >
-                    Connect
-                  </button>
+                    <button
+                      className="w-full bg-gradient-to-r from-red-700 to-red-500 text-white rounded-full py-3 px-4 transition-transform transform hover:scale-105"
+                    >
+                      Connect
+                    </button>
+                  </a>
                 </div>
               </div>
             </div>

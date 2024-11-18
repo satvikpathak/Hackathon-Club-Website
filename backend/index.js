@@ -1,6 +1,6 @@
 import express from 'express';
 import connectDB from './src/config/connectDB.js';
-import userRoutes from './src/routes/userRoutes.js'; // Changed to userRoutes
+import userRoutes from './src/routes/userRoutes.js'; // The updated routes for user profile
 import cors from 'cors';
 import dotenv from 'dotenv';
 
@@ -11,14 +11,14 @@ const PORT = 5001;
 
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:5173', // Replace with your frontend URL if different
-  methods: ['GET', 'POST'], // Add any other HTTP methods you need
+  origin: '*', // This will allow requests from any origin
+  methods: ['GET', 'POST'],
 }));
 
-// Connect to database
+// Connect to the MongoDB database
 connectDB();
 
-// User-related routes (formerly authRoutes)
-app.use('/api/users', userRoutes); // Updated route to /api/users
+// User-related routes
+app.use('/api/users', userRoutes); // API route for user profile
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

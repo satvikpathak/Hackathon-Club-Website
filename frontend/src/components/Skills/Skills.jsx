@@ -3,20 +3,20 @@ import { motion } from "framer-motion";
 import CreatableSelect from "react-select/creatable";
 import { useAuth } from '@clerk/clerk-react'; // Import Clerk's useAuth hook
 import skillData from "./Skills.json";
-import { Navigate } from "react-router-dom"; // Import Navigate for redirect
 import toast, { Toaster } from "react-hot-toast";
 
 const UserProfileForm = () => {
   const { isSignedIn } = useAuth(); // Get authentication status from Clerk
   const [formData, setFormData] = useState({
     name: "",
+    email: "",
     college: "",
     interests: "",
     skills: [],
   });
 
-  const [error, setError] = useState(""); // New state for error message
-  const [showWarning, setShowWarning] = useState(false); // State to show warning
+  const [error, setError] = useState(""); // Error state
+  const [showWarning, setShowWarning] = useState(false); // Show warning if not signed in
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,16 +29,17 @@ const UserProfileForm = () => {
   const handleSkillChange = (selectedOption) => {
     setFormData((prevData) => ({
       ...prevData,
-      skills: selectedOption || [],
+      skills: selectedOption ? selectedOption.map(option => ({ label: option.label, value: option.value })) : [],
     }));
   };
 
+  const { getToken } = useAuth(); // Get Clerk's authentication token
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     if (!isSignedIn) {
       setShowWarning(true); // Show warning if user is not signed in
-      
       return; // Stop submission if user is not signed in
     }
 
@@ -52,22 +53,32 @@ const UserProfileForm = () => {
     setShowWarning(false); // Clear warning
 
     try {
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('college', formData.college);
+      formDataToSend.append('interests', formData.interests);
+      formDataToSend.append('skills', JSON.stringify(formData.skills)); // Convert skills to JSON string
+
+      // Get Clerk token
+      const token = await getToken();
+
       const response = await fetch('http://localhost:5001/api/users', {
         method: 'POST',
+        body: formDataToSend,
         headers: {
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Add token for authentication
         },
-        body: JSON.stringify(formData),
       });
 
       const result = await response.json();
       if (response.ok) {
-        console.log('Profile created:', result);
         toast.success('Profile created successfully');
-
+        
         // Reset form fields
         setFormData({
           name: "",
+          email: "",
           college: "",
           interests: "",
           skills: [],
@@ -83,7 +94,6 @@ const UserProfileForm = () => {
   };
 
   return (
-    
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -91,7 +101,7 @@ const UserProfileForm = () => {
       transition={{ duration: 0.5, ease: "easeInOut" }}
       className="min-h-screen flex flex-col items-center text-white font-inter p-8"
     >
-      <Toaster/>
+      <Toaster />
       <h2 className="text-4xl font-bold mb-6 text-center text-white">
         Create Your Profile
       </h2>
@@ -104,7 +114,6 @@ const UserProfileForm = () => {
         <div className="mb-4 text-yellow-500 text-center">
           Please sign in to submit your profile and add skills.
         </div>
-        
       )}
 
       {error && <div className="mb-4 text-red-500 text-center">{error}</div>} {/* Display error */}
@@ -126,12 +135,25 @@ const UserProfileForm = () => {
           />
         </div>
 
+        {/* Email Input */}
+        <div>
+          <label htmlFor="email" className="block text-stone-300 font-medium mb-2">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Enter your email"
+            className="w-full p-3 rounded-lg bg-stone-800 border border-stone-600 text-white placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-red-600"
+          />
+        </div>
+
         {/* College Input */}
         <div>
-          <label
-            htmlFor="college"
-            className="block text-stone-300 font-medium mb-2"
-          >
+          <label htmlFor="college" className="block text-stone-300 font-medium mb-2">
             College
           </label>
           <input
@@ -147,10 +169,7 @@ const UserProfileForm = () => {
 
         {/* Technical Interests */}
         <div>
-          <label
-            htmlFor="interests"
-            className="block text-stone-300 font-medium mb-2"
-          >
+          <label htmlFor="interests" className="block text-stone-300 font-medium mb-2">
             Technical Interests
           </label>
           <textarea
