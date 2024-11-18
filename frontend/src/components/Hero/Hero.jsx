@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Carousel from "../Carousel/Carousel";
 import { Link } from "react-router-dom";
 import Cards from "../Cards/Cards";
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
+import { motion } from "framer-motion";
 
 const HeroSection = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false); // State to control the dialog box visibility
+
+  const handleOpenDialog = () => {
+    setIsDialogOpen(true); // Open the dialog when button is clicked
+  };
+
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false); // Close the dialog
+  };
+
   return (
     <div>
       <section className="relative flex flex-col md:flex-row items-center justify-center bg-gradient-to-r from-red-900 via-red-700 to-red-900 text-white py-24 px-8 mt-2 gap-4 overflow-hidden">
@@ -28,11 +39,13 @@ const HeroSection = () => {
                 </button>
               </Link>
             </SignedOut>
-            <Link to="/skills">
-              <button className="bg-red-700 border-2 border-red-600 rounded-lg text-white py-2 px-6 hover:bg-red-800 transition duration-300 transform hover:scale-105">
-                Skills
-              </button>
-            </Link>
+
+            <button
+              onClick={handleOpenDialog}
+              className="bg-red-700 border-2 border-red-600 rounded-lg text-white py-2 px-6 hover:bg-red-800 transition duration-300 transform hover:scale-105"
+            >
+              About Us
+            </button>
           </div>
         </div>
 
@@ -41,6 +54,49 @@ const HeroSection = () => {
         </div>
       </section>
       <Cards />
+
+      {/* About Us Dialog */}
+      {isDialogOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+         
+          transition={{ duration: 0.5 }}
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+        >
+          <motion.div
+            initial={{ x: "-100%" }}
+            animate={{ x: 0 }}
+         
+            transition={{ duration: 0.5 }}
+            className="bg-stone-800 text-white p-8 rounded-lg max-w-lg w-full space-y-6"
+          >
+            <h2 className="text-2xl font-semibold">About Our Hackathon Club</h2>
+            <p>
+              Welcome to the Hackathon Club! Our mission is to bring together
+              creative minds and foster innovation through hackathons, coding
+              competitions, and collaboration. Whether you are an experienced
+              developer or a beginner, we invite you to join us and participate
+              in challenges that will push your skills to the limit.
+            </p>
+            <p>
+              Our website serves as a platform for participants to find upcoming
+              events, register for challenges, and showcase their skills. Get
+              involved, meet like-minded individuals, and let’s build something
+              great together!
+            </p>
+
+            <div className="flex justify-end">
+              <button
+                onClick={handleCloseDialog}
+                className="bg-red-700 text-white py-2 px-4 rounded-lg hover:bg-red-800 transition duration-300"
+              >
+                Close
+              </button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
     </div>
   );
 };
