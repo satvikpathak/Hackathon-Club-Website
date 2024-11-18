@@ -9,6 +9,7 @@ import Hackathons from './components/Hackathons/Hackathons.jsx';
 import Contact from './components/Contact/Contact.jsx';
 import Register from './components/Register/Sign-up.jsx';
 import Login from './components/Login/Sign-in.jsx';
+import ProfilePage from './components/ProfilePage/ProfilePage.jsx';
 import './index.css';
 import { ClerkProvider } from '@clerk/clerk-react'
 
@@ -30,6 +31,7 @@ const router = createBrowserRouter(
       <Route path="contact" element={<Contact />} />
       <Route path="sign-up" element={<Register />} />
       <Route path="sign-in" element={<Login />} />
+      <Route path="profiles" element={<ProfilePage />} /> 
       <Route path="*" element={<div>Not Found</div>} />
     </Route>
   )
@@ -39,7 +41,7 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById('root')).render(
   <StrictMode> 
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
-    <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </ClerkProvider>
   </StrictMode>
 );

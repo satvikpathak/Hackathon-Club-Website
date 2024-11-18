@@ -5,6 +5,7 @@ import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
 import { useEffect } from "react";
+
 // Utility function for className management
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -93,6 +94,7 @@ const Header = () => {
     { name: "Hackathons", link: "/hackathons" },
     { name: "Skills", link: "/skills" },
     { name: "Contact", link: "/contact" },
+    { name: "Profiles", link: "/profiles" }, {/* Added ProfilePage link here */}
   ];
 
   useEffect(() => {
