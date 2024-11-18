@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import CreatableSelect from "react-select/creatable";
+import { useAuth } from '@clerk/clerk-react'; // Import Clerk's useAuth hook
 import skillData from "./Skills.json";
+import { Navigate } from "react-router-dom"; // Import Navigate for redirect
+import toast, { Toaster } from "react-hot-toast";
 
 const UserProfileForm = () => {
+  const { isSignedIn } = useAuth(); // Get authentication status from Clerk
   const [formData, setFormData] = useState({
     name: "",
     college: "",
     interests: "",
     skills: [],
   });
-  
+
   const [error, setError] = useState(""); // New state for error message
+  const [showWarning, setShowWarning] = useState(false); // State to show warning
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,15 +35,22 @@ const UserProfileForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
+    if (!isSignedIn) {
+      setShowWarning(true); // Show warning if user is not signed in
+      
+      return; // Stop submission if user is not signed in
+    }
+
     // Basic validation
     if (!formData.name || !formData.college || !formData.interests || formData.skills.length === 0) {
       setError("Please fill in all fields.");
       return; // Stop submission if validation fails
     }
-    
+
     setError(""); // Clear error if validation passes
-    
+    setShowWarning(false); // Clear warning
+
     try {
       const response = await fetch('http://localhost:5001/api/users', {
         method: 'POST',
@@ -47,12 +59,12 @@ const UserProfileForm = () => {
         },
         body: JSON.stringify(formData),
       });
-  
+
       const result = await response.json();
       if (response.ok) {
         console.log('Profile created:', result);
-        alert('Profile Submitted!');
-        
+        toast.success('Profile created successfully');
+
         // Reset form fields
         setFormData({
           name: "",
@@ -62,15 +74,16 @@ const UserProfileForm = () => {
         });
       } else {
         console.error('Error:', result);
-        alert('Error submitting profile');
+        toast.error('Error submitting profile');
       }
     } catch (err) {
       console.error('Error:', err);
-      alert('Error submitting profile');
+      toast.error('Error submitting profile');
     }
   };
 
   return (
+    
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -78,12 +91,21 @@ const UserProfileForm = () => {
       transition={{ duration: 0.5, ease: "easeInOut" }}
       className="min-h-screen flex flex-col items-center text-white font-inter p-8"
     >
+      <Toaster/>
       <h2 className="text-4xl font-bold mb-6 text-center text-white">
         Create Your Profile
       </h2>
       <p className="text-stone-400 text-center mb-4">
         Fill in the details to build your technical profile.
       </p>
+
+      {/* Display warning if user is not signed in */}
+      {showWarning && (
+        <div className="mb-4 text-yellow-500 text-center">
+          Please sign in to submit your profile and add skills.
+        </div>
+        
+      )}
 
       {error && <div className="mb-4 text-red-500 text-center">{error}</div>} {/* Display error */}
 
@@ -151,49 +173,49 @@ const UserProfileForm = () => {
             Skills
           </label>
           <CreatableSelect
-  isMulti
-  options={skillData}
-  value={formData.skills}
-  onChange={handleSkillChange}
-  placeholder="Select or add your skills..."
-  className="text-white"
-  styles={{
-    control: (base) => ({
-      ...base,
-      backgroundColor: "#292524", // Match the background color
-      borderColor: "#57534e", // Match the border color
-      color: "white", // Text color
-      fontSize: "1rem",
-    }),
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#292524", // Menu background to match
-      color: "white", // Text color in menu
-    }),
-    option: (base, { isFocused }) => ({
-      ...base,
-      backgroundColor: isFocused ? "#292530" : "#292524", // Focused state match
-      color: "white", // Option text color
-    }),
-    input: (base) => ({
-      ...base,
-      color: "white", // Text color for input
-    }),
-    multiValue: (base) => ({
-      ...base,
-      backgroundColor: "#292524", // Match the multi-value tag background
-      color: "white", // Text color
-    }),
-    multiValueLabel: (base) => ({
-      ...base,
-      color: "white", // Text color in multi-value label
-    }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#a8a29e", // Placeholder text color
-    }),
-  }}
-/>
+            isMulti
+            options={skillData}
+            value={formData.skills}
+            onChange={handleSkillChange}
+            placeholder="Select or add your skills..."
+            className="text-white"
+            styles={{
+              control: (base) => ({
+                ...base,
+                backgroundColor: "#292524", // Match the background color
+                borderColor: "#57534e", // Match the border color
+                color: "white", // Text color
+                fontSize: "1rem",
+              }),
+              menu: (base) => ({
+                ...base,
+                backgroundColor: "#292524", // Menu background to match
+                color: "white", // Text color in menu
+              }),
+              option: (base, { isFocused }) => ({
+                ...base,
+                backgroundColor: isFocused ? "#292530" : "#292524", // Focused state match
+                color: "white", // Option text color
+              }),
+              input: (base) => ({
+                ...base,
+                color: "white", // Text color for input
+              }),
+              multiValue: (base) => ({
+                ...base,
+                backgroundColor: "#292524", // Match the multi-value tag background
+                color: "white", // Text color
+              }),
+              multiValueLabel: (base) => ({
+                ...base,
+                color: "white", // Text color in multi-value label
+              }),
+              placeholder: (base) => ({
+                ...base,
+                color: "#a8a29e", // Placeholder text color
+              }),
+            }}
+          />
         </div>
 
         {/* Submit Button */}
@@ -226,6 +248,5 @@ const UserProfileForm = () => {
     </motion.div>
   );
 };
-
 
 export default UserProfileForm;
