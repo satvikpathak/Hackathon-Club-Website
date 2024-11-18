@@ -6,6 +6,7 @@ function ProfilePage() {
   const [searchQuery, setSearchQuery] = useState(""); // Search query state
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
+  const [selectedProfile, setSelectedProfile] = useState(null); // State for the selected profile (for the modal)
 
   // Fetch user profiles from the backend
   useEffect(() => {
@@ -46,6 +47,16 @@ function ProfilePage() {
   if (loading) return <div>Loading profiles...</div>; // Show loading spinner
   if (error) return <div>Error: {error}</div>; // Show error message
 
+  // Handle "Read More" click - show modal with full profile
+  const handleReadMore = (profile) => {
+    setSelectedProfile(profile);
+  };
+
+  // Close modal
+  const closeModal = () => {
+    setSelectedProfile(null);
+  };
+
   return (
     <div className="min-h-screen text-white p-8">
       <h1 className="text-4xl mb-8 font-bold animate__animated animate__fadeIn">
@@ -73,17 +84,17 @@ function ProfilePage() {
         {filteredProfiles.map((profile, index) => (
           <motion.div
             key={profile._id}
-            className="bg-stone-950 rounded-lg p-6 shadow-lg cursor-pointer transform hover:scale-105 hover:bg-gradient-to-br from-red-700 to-red-500"
+            className="bg-stone-950 rounded-lg p-6 shadow-lg cursor-pointer transform hover:scale-105 hover:bg-gradient-to-br from-red-700 to-red-500 flex flex-col"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
             whileHover={{ scale: 1.05 }}
           >
-            <div className="flex gap-6">
+            <div className="flex gap-6 mb-6">
               {/* Profile Image */}
               <div className="flex-shrink-0">
                 <img
-                  src={profile.profilePhoto || "https://via.placeholder.com/150"} // Use profilePhoto from API or placeholder
+                  src={profile.profilePhoto || "http://localhost:5001/api/users"} // Use profilePhoto from API or placeholder
                   alt={profile.name}
                   className="w-32 h-32 object-cover rounded-full"
                 />
@@ -97,31 +108,68 @@ function ProfilePage() {
 
                 <h3 className="text-lg font-medium">Skills:</h3>
                 <ul className="list-disc pl-5 space-y-1 text-gray-600">
-                  {profile.skills.map((skill, idx) => (
+                  {/* Limit the number of displayed skills */}
+                  {profile.skills.slice(0, 3).map((skill, idx) => (
                     <li key={idx}>
                       <strong>{skill.label}:</strong> {skill.value}
                     </li>
                   ))}
                 </ul>
 
-                {/* Full-Width Connect Button */}
-                <div className="mt-6">
-                  <a
-                    href={`mailto:${profile.email || ""}`} // Ensure email is handled properly
-                    className="block w-full"
+                {/* "Read More" Button */}
+                {profile.skills.length > 3 && (
+                  <button
+                    onClick={() => handleReadMore(profile)}
+                    className="text-red-500 mt-2 block"
                   >
-                    <button
-                      className="w-full bg-gradient-to-r from-red-700 to-red-500 text-white rounded-full py-3 px-4 transition-transform transform hover:scale-105"
-                    >
-                      Connect
-                    </button>
-                  </a>
-                </div>
+                    Read More...
+                  </button>
+                )}
               </div>
+            </div>
+
+            {/* Full-Width Connect Button at Bottom */}
+            <div className="mt-auto">
+              <a
+                href={`mailto:${profile.email || ""}`} // Ensure email is handled properly
+                className="block w-full"
+              >
+                <button
+                  className="w-full bg-gradient-to-r from-red-700 to-red-500 text-white rounded-full py-3 px-4 transition-transform transform hover:scale-105"
+                >
+                  Connect
+                </button>
+              </a>
             </div>
           </motion.div>
         ))}
       </motion.div>
+
+      {/* Modal for Full Profile */}
+      {selectedProfile && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-stone-900 p-6 rounded-lg w-80 md:w-96">
+            <h2 className="text-2xl font-semibold mb-4">{selectedProfile.name}</h2>
+            <h3 className="text-lg font-medium">Skills:</h3>
+            <ul className="list-disc pl-5 space-y-1 text-gray-600">
+              {selectedProfile.skills.map((skill, idx) => (
+                <li key={idx}>
+                  <strong>{skill.label}:</strong> {skill.value}
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-4">
+              <button
+                onClick={closeModal}
+                className="w-full bg-gradient-to-r from-red-700 to-red-500 text-white rounded-full py-3 px-4 transition-transform transform hover:scale-105"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
