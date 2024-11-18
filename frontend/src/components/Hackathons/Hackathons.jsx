@@ -17,7 +17,7 @@ function Hackathons() {
     },
     {
       title: "Google Chrome Built-in AI Challenge",
-      timeLeft: "about 1 month left",
+      timeLeft: "About 1 month left",
       location: "Online",
       prize: "$65,000",
       participants: "3799 participants",
