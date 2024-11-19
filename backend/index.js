@@ -12,7 +12,7 @@ const PORT = 5001;
 app.use(express.json());
 app.use(cors({
   origin: '*', // This will allow requests from any origin
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST','PUT'],
 }));
 
 // Connect to the MongoDB database

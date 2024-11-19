@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
-import CreatableSelect from "react-select/creatable";
-import { useDropzone } from "react-dropzone";
-import toast, { Toaster } from "react-hot-toast";
+import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '@clerk/clerk-react';
+import CreatableSelect from 'react-select/creatable';
+import toast from 'react-hot-toast';
+import skillData from "./Skills.json";
 
 const EditProfile = () => {
-  const { id } = useParams(); // Get user profile ID from URL
+  const { state } = useLocation(); // Retrieve the passed state (userProfile)
   const navigate = useNavigate();
+  const { getToken } = useAuth();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -15,30 +16,48 @@ const EditProfile = () => {
     college: "",
     interests: "",
     skills: [],
-    profilePhoto: "",
   });
-  const [imageFile, setImageFile] = useState(null); // To store the selected image
-  const [skills, setSkills] = useState([]);
-
+  const [loading, setLoading] = useState(true);
+  
+  // Fetch user profile data from the backend if state is not passed
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchProfileData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/users/${id}`);
-        const userData = response.data;
-        setFormData({
-          name: userData.name,
-          email: userData.email,
-          college: userData.college,
-          interests: userData.interests,
-          skills: userData.skills,
-          profilePhoto: userData.profilePhoto,
+        const token = await getToken();
+        const response = await fetch(`http://localhost:5001/api/users/${state?.userProfile?.id || 'default_user_id'}`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
+
+        if (response.ok) {
+          const result = await response.json();
+          setFormData({
+            name: result.name,
+            email: result.email,
+            college: result.college,
+            interests: result.interests,
+            skills: result.skills,
+          });
+        } else {
+          toast.error('Error fetching profile data');
+        }
       } catch (error) {
-        console.error("Error fetching profile data", error);
+        toast.error('Error fetching profile data');
+      } finally {
+        setLoading(false);
       }
     };
-    fetchProfile();
-  }, [id]);
+
+    // Only fetch if no state is passed, or data is not available
+    if (!state?.userProfile) {
+      fetchProfileData();
+    } else {
+      setFormData(state.userProfile); // Prefill from state if available
+      setLoading(false);
+    }
+  }, [state, getToken]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,136 +67,165 @@ const EditProfile = () => {
     }));
   };
 
-  const handleSkillChange = (selectedOptions) => {
-    setSkills(selectedOptions.map((option) => ({ label: option.label, value: option.value })));
-  };
-
-  const handleImageDrop = (acceptedFiles) => {
-    setImageFile(acceptedFiles[0]);
+  const handleSkillChange = (selectedOption) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      skills: selectedOption ? selectedOption.map(option => ({ label: option.label, value: option.value })) : [],
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const data = new FormData();
-    data.append("name", formData.name);
-    data.append("email", formData.email);
-    data.append("college", formData.college);
-    data.append("interests", formData.interests);
-    data.append("skills", JSON.stringify(skills)); // Convert skills to JSON string
-    if (imageFile) {
-      data.append("image", imageFile); // Append selected image
-    }
-
+    
+    const updatedData = {
+      name: formData.name,
+      email: formData.email,
+      college: formData.college,
+      interests: formData.interests,
+      skills: formData.skills.map(skill => skill.value),  // Ensure skills are in the correct format
+    };
+  
     try {
-      const response = await axios.put(
-        `http://localhost:5001/api/users/${id}`,
-        data
-      );
-      toast.success("Profile updated successfully");
-      navigate(`/profile/${id}`); // Redirect to the profile page after successful update
-    } catch (error) {
-      console.error("Error updating profile:", error);
-      toast.error("Error updating profile");
+      const token = await getToken();
+      const response = await fetch(`http://localhost:5001/api/users/_id}`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',  // Set correct content type
+        },
+        body: JSON.stringify(updatedData),  // Send JSON data
+      });
+  
+      if (response.ok) {
+        toast.success('Profile updated successfully');
+        navigate(`/profile/${state?.userProfile?.id || 'default_user_id'}`);
+      } else {
+        toast.error('Error updating profile');
+      }
+    } catch (err) {
+      toast.error('Error updating profile');
     }
   };
+  
+
+  if (loading) {
+    return <div>Loading...</div>; // Optional: Show a loading indicator while fetching data
+  }
 
   return (
-    <div className="container mx-auto p-6 bg-stone-900 text-white rounded-lg shadow-md">
-      <Toaster />
-      <h2 className="text-3xl font-bold text-red-500 text-center mb-6">Edit Your Profile</h2>
+    <div className="min-h-screen flex flex-col items-center text-white font-inter p-8">
+      <h2 className="text-4xl font-bold mb-6 text-center text-white">Edit Your Profile</h2>
+      <p className="text-stone-400 text-center mb-4">Make changes to your profile details.</p>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="w-full max-w-lg space-y-6">
         {/* Name Input */}
         <div>
-          <label className="block text-red-400">Name</label>
+          <label htmlFor="name" className="block text-stone-300 font-medium mb-2">Name</label>
           <input
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
-            className="w-full p-3 bg-stone-800 border border-stone-950 rounded focus:outline-none focus:ring focus:ring-blue-600"
-            required
+            placeholder="Enter your name"
+            className="w-full p-3 rounded-lg bg-stone-800 border border-stone-600 text-white placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-red-600"
           />
         </div>
 
         {/* Email Input */}
         <div>
-          <label className="block text-red-400">Email</label>
+          <label htmlFor="email" className="block text-stone-300 font-medium mb-2">Email</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full p-3 bg-stone-800 border border-stone-950 rounded focus:outline-none focus:ring focus:ring-blue-600"
-            required
+            placeholder="Enter your email"
+            className="w-full p-3 rounded-lg bg-stone-800 border border-stone-600 text-white placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-red-600"
           />
         </div>
 
         {/* College Input */}
         <div>
-          <label className="block text-red-400">College</label>
+          <label htmlFor="college" className="block text-stone-300 font-medium mb-2">College</label>
           <input
             type="text"
             name="college"
             value={formData.college}
             onChange={handleChange}
-            className="w-full p-3 bg-stone-800 border border-stone-950 rounded focus:outline-none focus:ring focus:ring-blue-600"
-            required
+            placeholder="Enter your college"
+            className="w-full p-3 rounded-lg bg-stone-800 border border-stone-600 text-white placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-red-600"
           />
         </div>
 
-        {/* Interests Input */}
+        {/* Technical Interests */}
         <div>
-          <label className="block text-red-400">Technical Interests</label>
+          <label htmlFor="interests" className="block text-stone-300 font-medium mb-2">Technical Interests</label>
           <textarea
             name="interests"
             value={formData.interests}
             onChange={handleChange}
-            rows="4"
-            className="w-full p-3 bg-stone-800 border border-stone-950 rounded focus:outline-none focus:ring focus:ring-blue-600"
-            required
-          ></textarea>
+            placeholder="Enter your technical interests"
+            rows="3"
+            className="w-full p-3 rounded-lg bg-stone-800 border border-stone-600 text-white placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-red-600"
+          />
         </div>
 
         {/* Skills Input */}
         <div>
-          <label className="block text-red-400">Skills</label>
+          <label htmlFor="skills" className="block text-stone-300 font-medium mb-2">Skills</label>
           <CreatableSelect
             isMulti
-            value={skills}
+            options={skillData} // Add your skill options here
+            value={formData.skills}
             onChange={handleSkillChange}
-            options={[]} // Add your skills options here
-            className="text-black"
-            placeholder="Select or add skills"
+            placeholder="Select or add your skills..."
+            className="text-white"
+            styles={{
+              control: (base) => ({
+                ...base,
+                backgroundColor: "#292524",
+                borderColor: "#57534e",
+                color: "white",
+                fontSize: "1rem",
+              }),
+              menu: (base) => ({
+                ...base,
+                backgroundColor: "#292524",
+                color: "white",
+              }),
+              option: (base, { isFocused }) => ({
+                ...base,
+                backgroundColor: isFocused ? "#292530" : "#292524",
+                color: "white",
+              }),
+              input: (base) => ({
+                ...base,
+                color: "white",
+              }),
+              multiValue: (base) => ({
+                ...base,
+                backgroundColor: "#292524",
+                color: "white",
+              }),
+              multiValueLabel: (base) => ({
+                ...base,
+                color: "white",
+              }),
+              placeholder: (base) => ({
+                ...base,
+                color: "#a8a29e",
+              }),
+            }}
           />
         </div>
 
-        {/* Image Upload */}
-        <div>
-          <label className="block text-red-400">Profile Photo</label>
-          <div {...useDropzone({ onDrop: handleImageDrop })} className="border border-stone-950 p-4 text-center bg-stone-800 rounded">
-            <p className="text-white-300 mb-2">Drag & Drop or click to select an image</p>
-            {imageFile && <p className="text-sm text-white">{imageFile.name}</p>}
-            {formData.profilePhoto && !imageFile && (
-              <img
-                src={formData.profilePhoto}
-                alt="Profile"
-                className="w-32 h-32 object-cover rounded-full mx-auto mt-4 border border-stone-950"
-              />
-            )}
-          </div>
-        </div>
-
         {/* Submit Button */}
-        <div>
-          <button
-            type="submit"
-            className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg"
-          >
-            Update Profile
-          </button>
-        </div>
+        <button
+          type="submit"
+          className="w-full py-3 rounded-lg bg-gradient-to-r from-red-700 to-red-500 hover:from-red-600 hover:to-red-400 text-white font-bold text-lg transition ease-out duration-300 shadow-lg shadow-red-500/50"
+        >
+          Update Profile
+        </button>
       </form>
     </div>
   );

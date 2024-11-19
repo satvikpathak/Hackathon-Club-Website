@@ -4,6 +4,7 @@ import CreatableSelect from "react-select/creatable";
 import { useAuth } from '@clerk/clerk-react'; // Import Clerk's useAuth hook
 import skillData from "./Skills.json";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const UserProfileForm = () => {
   const { isSignedIn } = useAuth(); // Get authentication status from Clerk
@@ -17,6 +18,7 @@ const UserProfileForm = () => {
   const [showDialog, setShowDialog] = useState(false); // Dialog visibility state
   const [error, setError] = useState(""); // Error state
   const [showWarning, setShowWarning] = useState(false); // Show warning if not signed in
+  const navigate = useNavigate();
 
   // Check if the profile is already submitted on page load
   useEffect(() => {
@@ -83,7 +85,9 @@ const UserProfileForm = () => {
         toast.success('Profile created successfully');
         setShowDialog(true);
         localStorage.setItem("profileSubmitted", "true"); // Save submission status in localStorage
-        
+        localStorage.setItem("userId", result._id); // Save profile ID in localStorage
+        navigate(`/profile/${result._id}`); // Redirect to the newly created profile
+
         // Reset form fields
         setFormData({
           name: "",
@@ -102,10 +106,28 @@ const UserProfileForm = () => {
     }
   };
 
-  const handleEditProfile = () => {
-    // Navigate to the edit page (or handle edit profile logic here)
-    window.location.href = '/edit/:id'; // Redirect to the edit page
+  const handleViewProfile = async () => {
+    const userId = localStorage.getItem("userId"); // Get userId from localStorage
+    if (userId) {
+      try {
+        // Fetch profile data from the backend
+        const response = await fetch(`http://localhost:5001/api/users/${userId}`);
+        if (!response.ok) {
+          // Handle errors if the response is not okay (e.g., user not found)
+          throw new Error("Profile not found.");
+        }
+        const profileData = await response.json(); // Parse the JSON response
+        // Navigate to the profile view page using the userId (or profileData)
+        navigate(`/profile/${userId}`, { state: { profile: profileData } });
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        toast.error("Error fetching profile.");
+      }
+    } else {
+      toast.error("Profile not found.");
+    }
   };
+  
 
   return (
     <motion.div
@@ -262,19 +284,19 @@ const UserProfileForm = () => {
 
       {/* Display Dialog after Profile Submission */}
       {showDialog && (
-        <div className="fixed min-h-screen bg-opacity-50 flex items-center justify-center ">
+        <div className=" min-h-screen bg-opacity-50 mt-52 ">
           <div className="bg-stone-800 rounded-lg shadow-lg p-6 w-96 text-center">
             <h3 className="text-xl font-semibold text-white mb-4">
               Profile Submitted!
             </h3>
             <p className="text-stone-400 mb-6">
-              Your profile has been submitted successfully. Click below to edit it.
+              Your profile has been submitted successfully. Click below to view it.
             </p>
             <button
               className="py-2 px-4 rounded-lg bg-gradient-to-r from-blue-600 to-blue-400 hover:from-blue-500 hover:to-blue-300 text-white font-bold transition ease-out duration-300"
-              onClick={handleEditProfile} // Navigate to /edit
+              onClick={handleViewProfile} // Navigate to view the profile
             >
-              Edit Profile
+              View Profile
             </button>
           </div>
         </div>
