@@ -3,7 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "proxy": "https://vocal-haddock-92.clerk.accounts.dev",
-
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -15,9 +14,11 @@
     "@clerk/clerk-react": "^5.16.0",
     "axios": "^1.7.7",
     "clsx": "^2.1.1",
+    "form-data": "^4.0.1",
     "framer-motion": "^11.11.17",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-dropzone": "^14.3.5",
     "react-feather": "^2.0.10",
     "react-hook-form": "^7.53.1",
     "react-hot-toast": "^2.4.1",

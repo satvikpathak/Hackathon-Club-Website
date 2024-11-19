@@ -12,6 +12,7 @@ import Login from './components/Login/Sign-in.jsx';
 import ProfilePage from './components/ProfilePage/ProfilePage.jsx';
 import './index.css';
 import { ClerkProvider } from '@clerk/clerk-react'
+import EditProfile from './components/Edit/EditProfile.jsx';
 
 // Import your publishable key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -32,6 +33,7 @@ const router = createBrowserRouter(
       <Route path="sign-up" element={<Register />} />
       <Route path="sign-in" element={<Login />} />
       <Route path="profiles" element={<ProfilePage />} /> 
+      <Route path="edit/:id" element={<EditProfile/>} />
       <Route path="*" element={<div>Not Found</div>} />
     </Route>
   )
