@@ -1,39 +1,9 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import hackathonData from "../hackathonData";
 
 function Hackathons() {
   const [selectedHackathon, setSelectedHackathon] = useState(null);
-
-  const hackathons = [
-    {
-      title: "Microsoft Fabric and AI Learning Hackathon",
-      timeLeft: "12 days left",
-      location: "Online",
-      prize: "$10,000",
-      participants: "4163 participants",
-      tags: ["Beginner Friendly", "Databases", "Machine Learning/AI"],
-      description:
-        "An exciting hackathon to explore Microsoft Fabric and AI technologies.",
-    },
-    {
-      title: "Google Chrome Built-in AI Challenge",
-      timeLeft: "About 1 month left",
-      location: "Online",
-      prize: "$65,000",
-      participants: "3799 participants",
-      tags: ["Machine Learning/AI", "Web", "Beginner Friendly"],
-      description: "Join the challenge to innovate with AI in Google Chrome.",
-    },
-    {
-      title: "She Builds AI",
-      timeLeft: "13 days left",
-      location: "Online",
-      prize: "$15,000",
-      participants: "2000 participants",
-      tags: ["Social Good", "AI", "Women in Tech"],
-      description: "Empower women in tech through AI development.",
-    },
-  ];
 
   const handleCardClick = (hackathon) => {
     setSelectedHackathon(hackathon);
@@ -54,7 +24,7 @@ function Hackathons() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        {hackathons.map((hackathon, index) => (
+        {hackathonData.map((hackathon, index) => (
           <motion.div
             key={index}
             className="bg-stone-950 rounded-lg p-6 shadow-lg cursor-pointer transform hover:scale-105 hover:bg-gradient-to-br from-red-700 to-red-500"
