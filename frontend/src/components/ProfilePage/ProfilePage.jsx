@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import img1 from "./OIP.jpeg";
-import img2 from "./241346.jpg";
+import img1 from "./1.jpg";
+import img2 from "./2.jpg";
+import img3 from "./3.jpg";
+import img4 from "./4.jpg";
+import img5 from "./5.jpg";
+import img6 from "./6.jpg";
+
 
 function ProfilePage() {
   const [profiles, setProfiles] = useState([]); // State for all user profiles
@@ -11,7 +16,7 @@ function ProfilePage() {
   const [selectedProfile, setSelectedProfile] = useState(null); // State for the selected profile (for the modal)
 
   // Images Array
-  const images = [img1, img2];
+  const images = [img1, img2 , img3, img4, img5, img6];
 
   // Fetch user profiles from the backend
   useEffect(() => {
