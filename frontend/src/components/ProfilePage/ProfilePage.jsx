@@ -7,7 +7,6 @@ import img4 from "./4.jpg";
 import img5 from "./5.jpg";
 import img6 from "./6.jpg";
 
-
 function ProfilePage() {
   const [profiles, setProfiles] = useState([]); // State for all user profiles
   const [searchQuery, setSearchQuery] = useState(""); // Search query state
