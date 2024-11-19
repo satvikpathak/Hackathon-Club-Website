@@ -8,7 +8,7 @@ import toast, { Toaster } from "react-hot-toast";
 const EditProfile = () => {
   const { id } = useParams(); // Get user profile ID from URL
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,9 +19,8 @@ const EditProfile = () => {
   });
   const [imageFile, setImageFile] = useState(null); // To store the selected image
   const [skills, setSkills] = useState([]);
-  
+
   useEffect(() => {
-    // Fetch user profile data by ID when the component mounts
     const fetchProfile = async () => {
       try {
         const response = await axios.get(`http://localhost:5001/api/users/${id}`);
@@ -50,7 +49,7 @@ const EditProfile = () => {
   };
 
   const handleSkillChange = (selectedOptions) => {
-    setSkills(selectedOptions.map(option => ({ label: option.label, value: option.value })));
+    setSkills(selectedOptions.map((option) => ({ label: option.label, value: option.value })));
   };
 
   const handleImageDrop = (acceptedFiles) => {
@@ -84,66 +83,66 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-6 bg-stone-900 text-white rounded-lg shadow-md">
       <Toaster />
-      <h2 className="text-2xl font-bold text-center mb-4">Edit Your Profile</h2>
+      <h2 className="text-3xl font-bold text-red-500 text-center mb-6">Edit Your Profile</h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Name Input */}
         <div>
-          <label className="block text-gray-700">Name</label>
+          <label className="block text-red-400">Name</label>
           <input
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
-            className="w-full p-3 bg-gray-100 rounded"
+            className="w-full p-3 bg-stone-800 border border-stone-950 rounded focus:outline-none focus:ring focus:ring-blue-600"
             required
           />
         </div>
 
         {/* Email Input */}
         <div>
-          <label className="block text-gray-700">Email</label>
+          <label className="block text-red-400">Email</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full p-3 bg-gray-100 rounded"
+            className="w-full p-3 bg-stone-800 border border-stone-950 rounded focus:outline-none focus:ring focus:ring-blue-600"
             required
           />
         </div>
 
         {/* College Input */}
         <div>
-          <label className="block text-gray-700">College</label>
+          <label className="block text-red-400">College</label>
           <input
             type="text"
             name="college"
             value={formData.college}
             onChange={handleChange}
-            className="w-full p-3 bg-gray-100 rounded"
+            className="w-full p-3 bg-stone-800 border border-stone-950 rounded focus:outline-none focus:ring focus:ring-blue-600"
             required
           />
         </div>
 
         {/* Interests Input */}
         <div>
-          <label className="block text-gray-700">Technical Interests</label>
+          <label className="block text-red-400">Technical Interests</label>
           <textarea
             name="interests"
             value={formData.interests}
             onChange={handleChange}
             rows="4"
-            className="w-full p-3 bg-gray-100 rounded"
+            className="w-full p-3 bg-stone-800 border border-stone-950 rounded focus:outline-none focus:ring focus:ring-blue-600"
             required
           ></textarea>
         </div>
 
         {/* Skills Input */}
         <div>
-          <label className="block text-gray-700">Skills</label>
+          <label className="block text-red-400">Skills</label>
           <CreatableSelect
             isMulti
             value={skills}
@@ -156,15 +155,15 @@ const EditProfile = () => {
 
         {/* Image Upload */}
         <div>
-          <label className="block text-gray-700">Profile Photo</label>
-          <div {...useDropzone({ onDrop: handleImageDrop })} className="border p-4 text-center">
-            <p className="mb-2">Drag & Drop or click to select an image</p>
-            {imageFile && <p className="text-sm">{imageFile.name}</p>}
+          <label className="block text-red-400">Profile Photo</label>
+          <div {...useDropzone({ onDrop: handleImageDrop })} className="border border-stone-950 p-4 text-center bg-stone-800 rounded">
+            <p className="text-white-300 mb-2">Drag & Drop or click to select an image</p>
+            {imageFile && <p className="text-sm text-white">{imageFile.name}</p>}
             {formData.profilePhoto && !imageFile && (
               <img
                 src={formData.profilePhoto}
                 alt="Profile"
-                className="w-32 h-32 object-cover rounded-full mx-auto mt-4"
+                className="w-32 h-32 object-cover rounded-full mx-auto mt-4 border border-stone-950"
               />
             )}
           </div>
@@ -174,7 +173,7 @@ const EditProfile = () => {
         <div>
           <button
             type="submit"
-            className="w-full py-3 bg-blue-600 text-white rounded-lg"
+            className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg"
           >
             Update Profile
           </button>

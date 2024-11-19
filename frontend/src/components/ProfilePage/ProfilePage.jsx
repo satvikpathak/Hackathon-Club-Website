@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import img1 from "./1.jpg";
+import img2 from "./2.jpg";
+import img3 from "./3.jpg";
+import img4 from "./4.jpg";
+import img5 from "./5.jpg";
+import img6 from "./6.jpg";
+
 
 function ProfilePage() {
   const [profiles, setProfiles] = useState([]); // State for all user profiles
@@ -7,6 +14,9 @@ function ProfilePage() {
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
   const [selectedProfile, setSelectedProfile] = useState(null); // State for the selected profile (for the modal)
+
+  // Images Array
+  const images = [img1, img2 , img3, img4, img5, img6];
 
   // Fetch user profiles from the backend
   useEffect(() => {
@@ -17,7 +27,14 @@ function ProfilePage() {
           throw new Error("Failed to fetch profiles");
         }
         const data = await response.json();
-        setProfiles(data); // Set profiles state
+
+        // Add random images to each profile
+        const profilesWithImages = data.map((profile) => ({
+          ...profile,
+          profilePhoto: images[Math.floor(Math.random() * images.length)],
+        }));
+
+        setProfiles(profilesWithImages); // Set profiles state
         setLoading(false); // Turn off loading state
       } catch (err) {
         setError(err.message); // Set error message
@@ -94,7 +111,7 @@ function ProfilePage() {
               {/* Profile Image */}
               <div className="flex-shrink-0">
                 <img
-                  src={profile.profilePhoto || "http://localhost:5001/api/users"} // Use profilePhoto from API or placeholder
+                  src={profile.profilePhoto || "fallback-image.jpg"} 
                   alt={profile.name}
                   className="w-32 h-32 object-cover rounded-full"
                 />
@@ -134,9 +151,7 @@ function ProfilePage() {
                 href={`mailto:${profile.email || ""}`} // Ensure email is handled properly
                 className="block w-full"
               >
-                <button
-                  className="w-full bg-gradient-to-r from-red-700 to-red-500 text-white rounded-full py-3 px-4 transition-transform transform hover:scale-105"
-                >
+                <button className="w-full bg-gradient-to-r from-red-700 to-red-500 text-white rounded-full py-3 px-4 transition-transform transform hover:scale-105">
                   Connect
                 </button>
               </a>
