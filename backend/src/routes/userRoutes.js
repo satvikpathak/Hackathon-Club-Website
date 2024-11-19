@@ -16,7 +16,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: 'user_profiles', // Folder name in Cloudinary
+    folder: 'user_profiles',
     allowed_formats: ['jpg', 'jpeg', 'png'],
   },
 });
@@ -32,28 +32,23 @@ router.post('/', upload.single('image'), async (req, res) => {
       return res.status(400).json({ message: "All fields are required." });
     }
 
-    // Check if email is already in use
     const existingUser = await UserProfile.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "Email is already in use." });
     }
 
-    // Get image URL from Cloudinary (if an image was uploaded)
     const imageUrl = req.file ? req.file.secure_url : '';
 
-    // Create a new user profile
     const newUserProfile = new UserProfile({
       name,
       email,
       college,
       interests,
-      skills: JSON.parse(skills), // Make sure skills are passed as a JSON string
-      profilePhoto: imageUrl, // Save image URL from Cloudinary
+      skills: JSON.parse(skills),
+      profilePhoto: imageUrl,
     });
 
-    // Save the new user profile to the database
     const savedProfile = await newUserProfile.save();
-
     res.status(201).json(savedProfile);
   } catch (err) {
     console.error(err);
@@ -64,7 +59,7 @@ router.post('/', upload.single('image'), async (req, res) => {
 // GET: Fetch all user profiles
 router.get('/', async (req, res) => {
   try {
-    const userProfiles = await UserProfile.find(); // Fetch all users from MongoDB
+    const userProfiles = await UserProfile.find();
     res.status(200).json(userProfiles);
   } catch (err) {
     console.error(err);
@@ -83,6 +78,41 @@ router.get('/:id', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Error fetching profile' });
+  }
+});
+
+// PUT: Edit user profile
+router.put('/:id', upload.single('image'), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email, college, interests, skills } = req.body;
+
+    if (!name || !email || !college || !interests || skills.length === 0) {
+      return res.status(400).json({ message: "All fields are required." });
+    }
+
+    const existingUser = await UserProfile.findById(id);
+    if (!existingUser) {
+      return res.status(404).json({ message: "User profile not found." });
+    }
+
+    let imageUrl = existingUser.profilePhoto;
+    if (req.file) {
+      imageUrl = req.file.secure_url;
+    }
+
+    existingUser.name = name;
+    existingUser.email = email;
+    existingUser.college = college;
+    existingUser.interests = interests;
+    existingUser.skills = JSON.parse(skills);
+    existingUser.profilePhoto = imageUrl;
+
+    const updatedProfile = await existingUser.save();
+    res.status(200).json(updatedProfile);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error updating profile." });
   }
 });
 
