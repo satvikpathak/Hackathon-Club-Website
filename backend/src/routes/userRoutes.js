@@ -82,38 +82,31 @@ router.get('/:id', async (req, res) => {
 });
 
 // PUT: Edit user profile
-router.put('/:id', upload.single('image'), async (req, res) => {
+router.put(`/_id`, async (req, res) => {
   try {
-    const { id } = req.params;
     const { name, email, college, interests, skills } = req.body;
+    const user = await UserProfile.findById(req.params.id);
 
-    if (!name || !email || !college || !interests || skills.length === 0) {
-      return res.status(400).json({ message: "All fields are required." });
+    if (!user) {
+      return res.status(404).send('User not found');
     }
 
-    const existingUser = await UserProfile.findById(id);
-    if (!existingUser) {
-      return res.status(404).json({ message: "User profile not found." });
-    }
+    // Update user profile fields
+    user.name = name || user.name;
+    user.email = email || user.email;
+    user.college = college || user.college;
+    user.interests = interests || user.interests;
+    user.skills = skills || user.skills;
 
-    let imageUrl = existingUser.profilePhoto;
-    if (req.file) {
-      imageUrl = req.file.secure_url;
-    }
+    await user.save();
 
-    existingUser.name = name;
-    existingUser.email = email;
-    existingUser.college = college;
-    existingUser.interests = interests;
-    existingUser.skills = JSON.parse(skills);
-    existingUser.profilePhoto = imageUrl;
-
-    const updatedProfile = await existingUser.save();
-    res.status(200).json(updatedProfile);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Error updating profile." });
+    res.status(200).send(user);
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    res.status(500).send('Internal Server Error');
   }
 });
+
+
 
 export default router;
