@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import p1 from "../../assets/Hero-Section/p1.jpeg";
-import p2 from "../../assets/Hero-Section/p2.jpeg";
-import p3 from "../../assets/Hero-Section/p3.jpeg";
-import p4 from "../../assets/Hero-Section/p4.jpeg";
-import p5 from "../../assets/Hero-Section/p5.jpeg";
+import p1 from "../../assets/Hero-Section/1.jpg";
+import p2 from "../../assets/Hero-Section/2.png";
+import p3 from "../../assets/Hero-Section/3.jpg";
+import p4 from "../../assets/Hero-Section/4.png";
+import p5 from "../../assets/Hero-Section/5.jpg";
 
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);

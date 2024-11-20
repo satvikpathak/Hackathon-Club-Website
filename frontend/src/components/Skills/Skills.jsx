@@ -46,7 +46,7 @@ const UserProfileForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!isSignedIn) {
       setShowWarning(true); // Show warning if user is not signed in
       return; // Stop submission if user is not signed in
@@ -127,7 +127,21 @@ const UserProfileForm = () => {
       toast.error("Profile not found.");
     }
   };
-  
+
+  if (!isSignedIn) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center text-white font-inter p-8">
+        <h2 className="text-4xl font-bold mb-6 text-center">Please Log In First</h2>
+        <p className="text-stone-400 text-center mb-4">You need to be signed in to create profile.</p>
+        <button
+          onClick={() => navigate("/sign-in")} // Navigate to the sign-in page
+          className="bg-gradient-to-r from-red-700 to-red-500 py-2 px-4 rounded-lg text-white font-semibold"
+        >
+          Go to Sign In
+        </button>
+      </div>
+    );
+  }
 
   return (
     <motion.div

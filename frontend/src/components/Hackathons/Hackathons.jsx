@@ -1,17 +1,11 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import axios from "axios";
+
 
 function Hackathons() {
   const [hackathons, setHackathons] = useState([]);
   const [selectedHackathon, setSelectedHackathon] = useState(null);
 
-  // Predefined hackathon links
-  const hackathonLinks = [
-    "https://example.com/hackathon1",
-    "https://example.com/hackathon2",
-    "https://example.com/hackathon3",
-  ];
 
   // Fetch multiple hackathons from predefined links
   const fetchMultipleHackathons = async () => {
@@ -38,6 +32,13 @@ function Hackathons() {
     setSelectedHackathon(null);
   };
 
+  const navigate = useNavigate()
+  const handleLogin = () => {
+    // Simulate login for demo purposes
+    navigate("/sign-in")
+    setIsLoggedIn(true);
+  };
+
   return (
     <div className="min-h-screen text-white p-8">
       <h1 className="text-4xl mb-8 font-bold animate__animated animate__fadeIn">
@@ -61,7 +62,7 @@ function Hackathons() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        {hackathons.map((hackathon, index) => (
+        {hackathonData.map((hackathon, index) => (
           <motion.div
             key={index}
             className="bg-stone-950 rounded-lg p-6 shadow-lg cursor-pointer transform hover:scale-105 hover:bg-gradient-to-br from-red-700 to-red-500"
@@ -106,6 +107,7 @@ function Hackathons() {
                 {selectedHackathon.participants}
               </p>
               <div className="flex justify-center">
+
                 <button
                   onClick={handleCloseDetails}
                   className="ml-4 bg-stone-700 text-white rounded-full py-2 px-4"
