@@ -58,7 +58,7 @@ const HeroSection = () => {
           <Carousel />
         </div>
       </section>
-      <Cards />
+      <Cards  />
 
       {/* About Us Dialog */}
       {isDialogOpen && (
