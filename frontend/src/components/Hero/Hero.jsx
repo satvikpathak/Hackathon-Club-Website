@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Cards from "../Cards/Cards";
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import { motion } from "framer-motion";
+import logo from "./1.png"
 
 const HeroSection = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State to control the dialog box visibility
@@ -22,6 +23,10 @@ const HeroSection = () => {
         {/* Floating Background Shapes */}
         <div className="absolute top-0 left-0 w-32 h-32 bg-red-600 rounded-full opacity-50 animate-pulse"></div>
         <div className="absolute bottom-0 right-0 w-40 h-40 bg-red-400 rounded-full opacity-30 animate-pulse delay-2000"></div>
+
+        <div>
+          <img src={logo} alt="logo" />
+        </div>
 
         <div className="relative z-10 w-full md:w-1/2 space-y-6 text-center md:text-left">
           <h1 className="text-5xl font-extrabold tracking-wide transition-transform transform hover:scale-105">
