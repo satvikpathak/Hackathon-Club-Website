@@ -49,7 +49,7 @@ const Cards = () => {
   return (
     <div className="flex flex-col w-full">
       {/* Scrolling Text Bar */}
-      <div className="w-full bg-gradient-to-r from-red-600 ring-1 to-red-800 text-white py-2">
+      <div className="w-full bg-gradient-to-r from-red-600 ring-1 ring-white to-red-800 text-white py-2">
         <marquee behavior="scroll" direction="left" className="text-lg font-bold">
           🎉 Hackathon Results: Microsoft Fabric Hackathon - Winner: Jane Doe 🏆 | 
           Google Chrome AI Challenge - Winner: John Smith 🏆 | 

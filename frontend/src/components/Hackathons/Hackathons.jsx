@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import hackathonData from "../hackathonData";
+import { useNavigate } from "react-router-dom";
 
 function Hackathons() {
   const [selectedHackathon, setSelectedHackathon] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
 
   const handleCardClick = (hackathon) => {
     setSelectedHackathon(hackathon);
@@ -11,6 +13,13 @@ function Hackathons() {
 
   const handleCloseDetails = () => {
     setSelectedHackathon(null);
+  };
+
+  const navigate = useNavigate()
+  const handleLogin = () => {
+    // Simulate login for demo purposes
+    navigate("/sign-in")
+    setIsLoggedIn(true);
   };
 
   return (
@@ -85,10 +94,24 @@ function Hackathons() {
                 {selectedHackathon.description}
               </p>
               <div className="flex justify-center">
-                <a href="https://unstop.com/competitions/1170040/register" target="_blank"><button className="bg-gradient-to-r from-red-700 to-red-500 text-white rounded-full py-2 px-4 transition-transform transform hover:scale-105">
-                  Register
-                </button>
-                </a>
+                {isLoggedIn ? (
+                  <a
+                    href="https://unstop.com/competitions/1170040/register"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <button className="bg-gradient-to-r from-red-700 to-red-500 text-white rounded-full py-2 px-4 transition-transform transform hover:scale-105">
+                      Register
+                    </button>
+                  </a>
+                ) : (
+                  <button
+                    onClick={handleLogin}
+                    className="bg-gradient-to-r from-yellow-700 to-yellow-500 text-white rounded-full py-2 px-4 transition-transform transform hover:scale-105"
+                  >
+                    Login to Register
+                  </button>
+                )}
                 <button
                   onClick={handleCloseDetails}
                   className="ml-4 bg-stone-700 text-white rounded-full py-2 px-4 transition-transform transform hover:scale-105"
