@@ -21,7 +21,8 @@ function Hackathons() {
     try {
       const hackathonData = await Promise.all(
         hackathonLinks.map(async (url) => {
-          const response = await axios.post("http://localhost:5000/fetch-hackathon", { url });
+          const response = await axios.post("http://localhost:5001/fetch-hackathon", { url });
+          console.log(response.data);
           return response.data;
         })
       );
@@ -43,9 +44,10 @@ function Hackathons() {
 
   const navigate = useNavigate();
   const handleLogin = () => {
+
     // Simulate login for demo purposes
     navigate("/sign-in");
-    setIsLoggedIn(true);
+    setIsLoggedIn(false);
   };
 
   return (

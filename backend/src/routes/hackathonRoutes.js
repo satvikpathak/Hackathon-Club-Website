@@ -1,6 +1,6 @@
-const express = require("express");
-const puppeteer = require("puppeteer");
-const axios = require("axios");
+import express from "express";
+import puppeteer from "puppeteer";
+import axios from "axios";
 const router = express.Router();
 
 // Function to scrape hackathon data
@@ -71,4 +71,4 @@ router.post("/fetch-hackathon", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
