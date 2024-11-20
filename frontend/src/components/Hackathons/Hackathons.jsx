@@ -1,11 +1,20 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
+import axios from "axios";
+import hackathonData from "../hackathonData";
+import { useNavigate } from "react-router-dom";
 
 function Hackathons() {
   const [hackathons, setHackathons] = useState([]);
   const [selectedHackathon, setSelectedHackathon] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
 
+  // Predefined hackathon links
+  const hackathonLinks = [
+    "https://example.com/hackathon1",
+    "https://example.com/hackathon2",
+    "https://example.com/hackathon3",
+  ];
 
   // Fetch multiple hackathons from predefined links
   const fetchMultipleHackathons = async () => {
@@ -32,10 +41,10 @@ function Hackathons() {
     setSelectedHackathon(null);
   };
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleLogin = () => {
     // Simulate login for demo purposes
-    navigate("/sign-in")
+    navigate("/sign-in");
     setIsLoggedIn(true);
   };
 
@@ -62,7 +71,7 @@ function Hackathons() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        {hackathonData.map((hackathon, index) => (
+        {(hackathons.length > 0 ? hackathons : hackathonData).map((hackathon, index) => (
           <motion.div
             key={index}
             className="bg-stone-950 rounded-lg p-6 shadow-lg cursor-pointer transform hover:scale-105 hover:bg-gradient-to-br from-red-700 to-red-500"
@@ -72,9 +81,7 @@ function Hackathons() {
             <p className="text-sm text-stone-400 mb-4">{hackathon.timeLeft}</p>
             <p className="text-lg mb-2">{hackathon.location}</p>
             <p className="text-lg font-bold mb-4">{hackathon.prize}</p>
-            <p className="text-sm text-stone-400 mb-4">
-              {hackathon.participants}
-            </p>
+            <p className="text-sm text-stone-400 mb-4">{hackathon.participants}</p>
           </motion.div>
         ))}
       </motion.div>
@@ -95,19 +102,30 @@ function Hackathons() {
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <h2 className="text-3xl font-semibold mb-2">
-                {selectedHackathon.title}
-              </h2>
-              <p className="text-sm text-stone-400 mb-4">
-                {selectedHackathon.timeLeft}
-              </p>
+              <h2 className="text-3xl font-semibold mb-2">{selectedHackathon.title}</h2>
+              <p className="text-sm text-stone-400 mb-4">{selectedHackathon.timeLeft}</p>
               <p className="text-lg mb-2">{selectedHackathon.location}</p>
               <p className="text-lg font-bold mb-4">{selectedHackathon.prize}</p>
-              <p className="text-sm text-stone-400 mb-4">
-                {selectedHackathon.participants}
-              </p>
+              <p className="text-sm text-stone-400 mb-4">{selectedHackathon.participants}</p>
               <div className="flex justify-center">
-
+                {isLoggedIn ? (
+                  <a
+                    href="https://unstop.com/competitions/1170040/register"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <button className="bg-gradient-to-r from-red-700 to-red-500 text-white rounded-full py-2 px-4 transition-transform transform hover:scale-105">
+                      Register
+                    </button>
+                  </a>
+                ) : (
+                  <button
+                    onClick={handleLogin}
+                    className="bg-gradient-to-r from-yellow-700 to-yellow-500 text-white rounded-full py-2 px-4 transition-transform transform hover:scale-105"
+                  >
+                    Login to Register
+                  </button>
+                )}
                 <button
                   onClick={handleCloseDetails}
                   className="ml-4 bg-stone-700 text-white rounded-full py-2 px-4"
