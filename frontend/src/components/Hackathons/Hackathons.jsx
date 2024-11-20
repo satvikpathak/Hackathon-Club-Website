@@ -1,16 +1,33 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import hackathonData from "../hackathonData";
-import { useNavigate } from "react-router-dom";
+
 
 function Hackathons() {
+  const [hackathons, setHackathons] = useState([]);
   const [selectedHackathon, setSelectedHackathon] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
 
+
+  // Fetch multiple hackathons from predefined links
+  const fetchMultipleHackathons = async () => {
+    try {
+      const hackathonData = await Promise.all(
+        hackathonLinks.map(async (url) => {
+          const response = await axios.post("http://localhost:5000/fetch-hackathon", { url });
+          return response.data;
+        })
+      );
+      setHackathons(hackathonData); // Update state with all fetched hackathons
+    } catch (error) {
+      console.error("Error fetching multiple hackathon data:", error);
+    }
+  };
+
+  // Handle card click to display hackathon details
   const handleCardClick = (hackathon) => {
     setSelectedHackathon(hackathon);
   };
 
+  // Close the detailed modal view
   const handleCloseDetails = () => {
     setSelectedHackathon(null);
   };
@@ -27,6 +44,18 @@ function Hackathons() {
       <h1 className="text-4xl mb-8 font-bold animate__animated animate__fadeIn">
         Hackathons You Can See Here
       </h1>
+
+      <div className="mb-4">
+        {/* Button to fetch multiple hackathons */}
+        <button
+          onClick={fetchMultipleHackathons}
+          className="bg-gradient-to-r from-red-700 to-red-500 text-white rounded-full py-2 px-4"
+        >
+          Fetch All Hackathons
+        </button>
+      </div>
+
+      {/* Display hackathons in a grid */}
       <motion.div
         className="grid grid-cols-1 md:grid-cols-2 gap-8"
         initial={{ opacity: 0 }}
@@ -38,10 +67,6 @@ function Hackathons() {
             key={index}
             className="bg-stone-950 rounded-lg p-6 shadow-lg cursor-pointer transform hover:scale-105 hover:bg-gradient-to-br from-red-700 to-red-500"
             onClick={() => handleCardClick(hackathon)}
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: index * 0.1 }}
-            whileHover={{ scale: 1.05 }}
           >
             <h2 className="text-2xl font-semibold mb-2">{hackathon.title}</h2>
             <p className="text-sm text-stone-400 mb-4">{hackathon.timeLeft}</p>
@@ -50,20 +75,11 @@ function Hackathons() {
             <p className="text-sm text-stone-400 mb-4">
               {hackathon.participants}
             </p>
-            <div className="flex flex-wrap gap-2">
-              {hackathon.tags.map((tag, i) => (
-                <span
-                  key={i}
-                  className="bg-stone-700 text-sm px-3 py-1 rounded-full"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
           </motion.div>
         ))}
       </motion.div>
 
+      {/* Display modal with hackathon details */}
       <AnimatePresence>
         {selectedHackathon && (
           <motion.div
@@ -90,31 +106,11 @@ function Hackathons() {
               <p className="text-sm text-stone-400 mb-4">
                 {selectedHackathon.participants}
               </p>
-              <p className="text-sm text-stone-300 mb-4">
-                {selectedHackathon.description}
-              </p>
               <div className="flex justify-center">
-                {isLoggedIn ? (
-                  <a
-                    href="https://unstop.com/competitions/1170040/register"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <button className="bg-gradient-to-r from-red-700 to-red-500 text-white rounded-full py-2 px-4 transition-transform transform hover:scale-105">
-                      Register
-                    </button>
-                  </a>
-                ) : (
-                  <button
-                    onClick={handleLogin}
-                    className="bg-gradient-to-r from-yellow-700 to-yellow-500 text-white rounded-full py-2 px-4 transition-transform transform hover:scale-105"
-                  >
-                    Login to Register
-                  </button>
-                )}
+
                 <button
                   onClick={handleCloseDetails}
-                  className="ml-4 bg-stone-700 text-white rounded-full py-2 px-4 transition-transform transform hover:scale-105"
+                  className="ml-4 bg-stone-700 text-white rounded-full py-2 px-4"
                 >
                   Close
                 </button>
