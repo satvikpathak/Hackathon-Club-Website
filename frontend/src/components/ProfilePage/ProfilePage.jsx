@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useUser } from "@clerk/clerk-react";  // Import Clerk's useUser hook
 import img1 from "./1.jpg";
 import img2 from "./2.jpg";
 import img3 from "./3.jpg";
@@ -8,6 +9,7 @@ import img5 from "./5.jpg";
 import img6 from "./6.jpg";
 
 function ProfilePage() {
+  const { isSignedIn, user } = useUser();  // Check if the user is signed in
   const [profiles, setProfiles] = useState([]); // State for all user profiles
   const [searchQuery, setSearchQuery] = useState(""); // Search query state
   const [loading, setLoading] = useState(true); // Loading state
@@ -72,6 +74,22 @@ function ProfilePage() {
   const closeModal = () => {
     setSelectedProfile(null);
   };
+
+  // If the user is not logged in, show a login prompt
+  if (!isSignedIn) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center text-white font-inter p-8">
+        <h2 className="text-4xl font-bold mb-6 text-center">Please Log In First</h2>
+        <p className="text-stone-400 text-center mb-4">You need to be signed in to view profiles.</p>
+        <button
+          onClick={() => navigate("/sign-in")} // Navigate to the sign-in page
+          className="bg-gradient-to-r from-red-700 to-red-500 py-2 px-4 rounded-lg text-white font-semibold"
+        >
+          Go to Sign In
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen text-white p-8">
