@@ -85,9 +85,10 @@ function Hackathons() {
                 {selectedHackathon.description}
               </p>
               <div className="flex justify-center">
-                <button className="bg-gradient-to-r from-red-700 to-red-500 text-white rounded-full py-2 px-4 transition-transform transform hover:scale-105">
+                <a href="https://unstop.com/competitions/1170040/register" target="_blank"><button className="bg-gradient-to-r from-red-700 to-red-500 text-white rounded-full py-2 px-4 transition-transform transform hover:scale-105">
                   Register
                 </button>
+                </a>
                 <button
                   onClick={handleCloseDetails}
                   className="ml-4 bg-stone-700 text-white rounded-full py-2 px-4 transition-transform transform hover:scale-105"
