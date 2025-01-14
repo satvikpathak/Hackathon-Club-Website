@@ -7,7 +7,10 @@ const Contact = () => {
     const email = "support@example.com"; // Replace with your email address
     const subject = "Contact Us Query";
     const body = "Hello, I would like to inquire Skills...";
-    window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    
+    // Open the email client in a new window
+    window.open(mailtoUrl, "_blank");
   };
 
   return (

@@ -17,7 +17,7 @@ function ProfilePage() {
   const [selectedProfile, setSelectedProfile] = useState(null); // State for the selected profile (for the modal)
 
   // Images Array
-  const images = [img1, img2 , img3, img4, img5, img6];
+  const images = [img1, img2, img3, img4, img5, img6];
 
   // Fetch user profiles from the backend
   useEffect(() => {
@@ -62,8 +62,15 @@ function ProfilePage() {
     );
   });
 
-  if (loading) return <div>Loading profiles...</div>; // Show loading spinner
-  if (error) return <div>Error: {error}</div>; // Show error message
+  // Handle "Connect" button click
+  const handleConnect = (email) => {
+    const subject = "Let's Connect!";
+    const body = "Hi, I came across your profile and would like to connect with you.";
+    const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    
+    // Open the email client in a new tab
+    window.open(mailtoUrl, "_blank");
+  };
 
   // Handle "Read More" click - show modal with full profile
   const handleReadMore = (profile) => {
@@ -74,6 +81,9 @@ function ProfilePage() {
   const closeModal = () => {
     setSelectedProfile(null);
   };
+
+  if (loading) return <div>Loading profiles...</div>; // Show loading spinner
+  if (error) return <div>Error: {error}</div>; // Show error message
 
   // If the user is not logged in, show a login prompt
   if (!isSignedIn) {
@@ -164,14 +174,12 @@ function ProfilePage() {
 
             {/* Full-Width Connect Button at Bottom */}
             <div className="mt-auto">
-              <a
-                href={`mailto:${profile.email || ""}`} // Ensure email is handled properly
-                className="block w-full"
+              <button
+                onClick={() => handleConnect(profile.email)}
+                className="w-full bg-gradient-to-r from-red-700 to-red-500 text-white rounded-full py-3 px-4 transition-transform transform hover:scale-105"
               >
-                <button className="w-full bg-gradient-to-r from-red-700 to-red-500 text-white rounded-full py-3 px-4 transition-transform transform hover:scale-105">
-                  Connect
-                </button>
-              </a>
+                Connect
+              </button>
             </div>
           </motion.div>
         ))}
