@@ -8,3 +8,18 @@
     color: var(--colorLogo);  /* Using the appearance color variable */
   }
   
+  @keyframes breathe {
+    0% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.5;
+    }
+  }
+  
+  .breathing {
+    animation: breathe 1.5s ease-in-out infinite;
+  }
