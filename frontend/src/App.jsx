@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import { SignedIn, UserButton } from "@clerk/clerk-react";
+import Chatbot from './components/Chatbot/Chatbot.jsx';
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
           </SignedIn>
         </div>
       </Header>
-    
+      <Chatbot />
       <Outlet /> {/* This will render the nested routes */}
       <Footer />
     </>
