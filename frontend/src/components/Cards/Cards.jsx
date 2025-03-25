@@ -118,7 +118,7 @@ const Cards = () => {
     const fetchHackathons = async () => {
       try {
         const response = await axios.post(
-          "https://hackathon-club-backend-production.up.railway.app/api/hackathons/fetch-hackathons"
+          "http://localhost:5001/api/hackathons/fetch-hackathons"
         );
         const hackathonsWithImages = response.data.hackathons.map((hackathon) => ({
           ...hackathon,
