@@ -1,0 +1,12 @@
+# Exclude HTML, CSS, and JS files from language statistics
+*.html linguist-vendored
+*.css linguist-vendored
+*.js linguist-vendored
+
+# Optional: Reclassify JS as TypeScript if you use JS with TS syntax
+# Uncomment if needed
+# *.js linguist-language=TypeScript
+
+# Optional: Ignore public or dist folders
+public/** linguist-vendored
+dist/** linguist-vendored
